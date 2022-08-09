@@ -10,7 +10,11 @@ export const authRouter = createRouter()
   .mutation('registerStudent', {
     input: z.object({
       name: z.string(),
-      email: z.string().email(),
+      email: z
+        .string()
+        .trim()
+        .email()
+        .transform((email) => email.toLowerCase()),
       password: z.string().min(8),
       WANumber: z.string(),
       lineId: z.string(),
@@ -31,7 +35,11 @@ export const authRouter = createRouter()
   .mutation('registerTutor', {
     input: z.object({
       name: z.string(),
-      email: z.string().email(),
+      email: z
+        .string()
+        .trim()
+        .email()
+        .transform((email) => email.toLowerCase()),
       password: z.string().min(8),
       WANumber: z.string(),
       lineId: z.string(),
@@ -55,7 +63,13 @@ export const authRouter = createRouter()
     },
   })
   .mutation('login', {
-    input: z.object({ email: z.string(), password: z.string() }),
+    input: z.object({
+      email: z
+        .string()
+        .trim()
+        .transform((email) => email.toLowerCase()),
+      password: z.string(),
+    }),
     async resolve({ input, ctx }) {
       const user = await ctx.prisma.user.findUnique({
         where: { email: input.email },

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import Button from '~/components/Button';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -54,7 +55,7 @@ const StudentRegister = () => {
             { id: 'register' },
           );
         }}
-        className="flex flex-col"
+        className="flex flex-col gap-1"
       >
         <h1 className="font-bold text-xl">REGISTER STUDENT</h1>
         <input
@@ -95,8 +96,20 @@ const StudentRegister = () => {
         />
         <label>Photo</label>
         <input type="file" name="image" ref={imageRef} accept="image/*" />
-        <button type="submit">REGISTER</button>
-        <Link href="/auth/register/tutor">Register as a Tutor</Link>
+        <Button type="submit">REGISTER</Button>
+        <Button
+          href="/auth/register/tutor"
+          className="flex justify-center"
+          variant="secondary"
+        >
+          Register as a Tutor
+        </Button>
+        <p>
+          Already have an account?{' '}
+          <Link href="/auth/login">
+            <a className="font-bold text-blue-600">Sign In</a>
+          </Link>
+        </p>
       </form>
     </div>
   );

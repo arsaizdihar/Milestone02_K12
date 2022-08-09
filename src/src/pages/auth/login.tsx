@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import Button from '~/components/Button';
 import { trpc } from '~/utils/trpc';
 
 const LoginPage = () => {
@@ -54,8 +56,13 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <button type="submit">LOGIN</button>
+        <Button type="submit">LOGIN</Button>
+        <p>
+          Don't have an account?{' '}
+          <Link href="/auth/register/student">
+            <a className="font-bold text-blue-600">Sign Up</a>
+          </Link>
+        </p>
       </form>
     </div>
   );

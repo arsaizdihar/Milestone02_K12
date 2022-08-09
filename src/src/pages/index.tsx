@@ -1,7 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import Button from '~/components/Button';
+import StudentHomePage from '~/components/StudentHomePage';
+import TutorHomePage from '~/components/TutorHomePage';
 import useSession from '~/hooks/useSession';
 import { trpc } from '~/utils/trpc';
 
@@ -10,6 +13,13 @@ const Home: NextPage = () => {
   const router = useRouter();
   const session = useSession();
   const queryClient = trpc.useContext();
+
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      router.push('/auth/login');
+    }
+  }, [session]);
+
   return (
     <>
       <Head>
@@ -18,35 +28,29 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex h-screen justify-center items-center">
-        {session.status !== 'loading' ? (
-          session.data ? (
-            <div className="flex flex-col items-center">
-              {session.data.photoUrl && (
-                <img
-                  src={session.data.photoUrl}
-                  alt={session.data.name}
-                  width={80}
-                />
-              )}
-              <p>{JSON.stringify(session.data)}</p>
-              <button
-                onClick={() =>
-                  logout.mutateAsync().then(() => {
+        {!session.data ? (
+          <div>Loading...</div>
+        ) : (
+          <div>
+            <h1>{session.data.name}</h1>
+            {session.data.role === 'TUTOR' ? (
+              <TutorHomePage />
+            ) : (
+              <StudentHomePage />
+            )}
+            <Button
+              onClick={() =>
+                logout.mutate(null, {
+                  onSuccess() {
                     queryClient.setQueryData(['auth.currentUser'], undefined);
-                    router.push('/auth/login');
-                  })
-                }
-              >
-                Log Out
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col">
-              <Link href="/auth/login">Login</Link>
-              <Link href="/auth/register/student">Register</Link>
-            </div>
-          )
-        ) : null}
+                  },
+                })
+              }
+            >
+              Sign out
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );

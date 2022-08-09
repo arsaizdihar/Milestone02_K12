@@ -1,156 +1,125 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
+type Inputs = {
+  name: string;
+  email: string;
+  password: string;
+  WANumber: string;
+  lineId: string;
+  semester: number;
+  major: string;
+  IPK: number;
+  description: string;
+  image: FileList;
+  cv: FileList;
+};
+
 const TutorRegister = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [WANumber, setWANumber] = useState('');
-  const [lineId, setLineId] = useState('');
-  const [semester, setSemester] = useState('');
-  const [major, setMajor] = useState('');
-  const [IPK, setIPK] = useState('');
-  const [description, setDescription] = useState('');
-  const imageRef = useRef<HTMLInputElement>(null);
-  const cvRef = useRef<HTMLInputElement>(null);
-  const register = trpc.useMutation('auth.registerTutor');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const signup = trpc.useMutation('auth.registerTutor');
   const router = useRouter();
+
+  const onSubmit: SubmitHandler<Inputs> = async ({ image, cv, ...data }) => {
+    const imageFile = image[0];
+    const cvFile = cv[0];
+    console.log(imageFile);
+    console.log(cvFile);
+    if (!imageFile || !cvFile) return;
+    const promise = new Promise<void>(async (resolve, reject) => {
+      try {
+        const [photoRes, cvRes] = await Promise.all([
+          uploadFile(imageFile),
+          uploadFile(cvFile),
+        ]);
+        const photoUrl = photoRes.Location;
+        const CVUrl = cvRes.Location;
+        signup.mutateAsync({ ...data, photoUrl, CVUrl }).then(() => {
+          resolve();
+          router.push('/auth/login');
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    toast.promise(
+      promise,
+      {
+        loading: 'Registering...',
+        success: 'Register success. Please login.',
+        error: 'Register failed',
+      },
+      { id: 'register' },
+    );
+
+    promise.catch(console.log);
+  };
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const imageFile = imageRef.current?.files?.[0];
-          const cvFile = cvRef.current?.files?.[0];
-          const semesterNum = parseInt(semester);
-          const ipkNum = parseFloat(IPK);
-          if (!imageFile || !cvFile || isNaN(semesterNum) || isNaN(ipkNum))
-            return;
-          const promise = new Promise<void>(async (resolve, reject) => {
-            try {
-              const [photoRes, cvRes] = await Promise.all([
-                uploadFile(imageFile),
-                uploadFile(cvFile),
-              ]);
-              const photoUrl = photoRes.Location;
-              const CVUrl = cvRes.Location;
-              register
-                .mutateAsync({
-                  email,
-                  name,
-                  password,
-                  WANumber,
-                  lineId,
-                  photoUrl,
-                  major,
-                  semester: semesterNum,
-                  IPK: ipkNum,
-                  CVUrl,
-                  description,
-                })
-                .then(() => {
-                  resolve();
-                  router.push('/auth/login');
-                });
-            } catch (error) {
-              reject(error);
-            }
-          });
-
-          toast.promise(
-            promise,
-            {
-              loading: 'Registering...',
-              success: 'Register success. Please login.',
-              error: 'Register failed',
-            },
-            { id: 'register' },
-          );
-        }}
-        className="flex flex-col gap-1"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <h1 className="font-bold text-xl">REGISTER TUTOR</h1>
+        <input placeholder="Name" {...register('name', { required: true })} />
         <input
-          type="text"
-          name="name"
-          required
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          required
-          type="email"
-          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          {...register('email', { required: true })}
         />
         <input
-          required
           type="password"
-          name="password"
           placeholder="Password"
-          minLength={8}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password', { required: true, minLength: 8 })}
         />
         <input
-          required
-          type="text"
-          name="WANumber"
           placeholder="WA Number"
-          value={WANumber}
-          onChange={(e) => setWANumber(e.target.value)}
+          {...register('WANumber', { required: true })}
         />
         <input
-          required
-          type="text"
-          name="lineId"
           placeholder="Line ID"
-          value={lineId}
-          onChange={(e) => setLineId(e.target.value)}
+          {...register('lineId', { required: true })}
         />
         <input
-          required
           type="number"
-          name="semester"
           placeholder="Semester"
-          value={semester}
-          onChange={(e) => setSemester(e.target.value)}
+          {...register('semester', { required: true, valueAsNumber: true })}
         />
         <input
           type="number"
-          name="ipk"
           placeholder="IPK TPB"
-          value={IPK}
-          onChange={(e) => setIPK(e.target.value)}
+          {...register('IPK', { required: true, valueAsNumber: true })}
         />
         <input
-          required
           type="text"
-          name="major"
           placeholder="Major"
-          value={major}
-          onChange={(e) => setMajor(e.target.value)}
+          {...register('major', { required: true })}
         />
         <textarea
-          name="description"
           rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
           placeholder="About yourself"
+          {...register('description', { required: true })}
         />
         <label>Photo</label>
-        <input type="file" name="image" ref={imageRef} accept="image/*" />
+        <input
+          type="file"
+          accept="image/*"
+          {...register('image', { required: true })}
+        />
         <label>CV</label>
-        <input type="file" name="image" ref={cvRef} accept="application/pdf" />
+        <input
+          type="file"
+          accept="application/pdf"
+          {...register('cv', { required: true })}
+        />
         <Button type="submit">REGISTER</Button>
         <Button
           href="/auth/register/student"

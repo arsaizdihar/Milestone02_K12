@@ -1,8 +1,9 @@
 import { User } from '@prisma/client';
 import React from 'react';
+import type { SIMPLE_USER_QUERY } from '~/server/user';
 import { trpc } from '~/utils/trpc';
 
-export type SessionUser = Pick<User, 'id' | 'email' | 'role' | 'name'>;
+export type SessionUser = Pick<User, keyof typeof SIMPLE_USER_QUERY>;
 export type Session =
   | {
       data: SessionUser;

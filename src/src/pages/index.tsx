@@ -20,7 +20,14 @@ const Home: NextPage = () => {
       <div className="flex h-screen justify-center items-center">
         {session.status !== 'loading' ? (
           session.data ? (
-            <div>
+            <div className="flex flex-col items-center">
+              {session.data.photoUrl && (
+                <img
+                  src={session.data.photoUrl}
+                  alt={session.data.name}
+                  width={80}
+                />
+              )}
               <p>{JSON.stringify(session.data)}</p>
               <button
                 onClick={() =>

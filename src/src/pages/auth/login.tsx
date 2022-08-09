@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { trpc } from '~/utils/trpc';
 
 const LoginPage = () => {
@@ -14,7 +15,7 @@ const LoginPage = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          login.mutateAsync(
+          const promise = login.mutateAsync(
             {
               email,
               password,
@@ -25,6 +26,15 @@ const LoginPage = () => {
                 router.push('/');
               },
             },
+          );
+          toast.promise(
+            promise,
+            {
+              error: 'Login failed',
+              loading: 'Logging in...',
+              success: 'Login success',
+            },
+            { id: 'login' },
           );
         }}
         className="flex flex-col"

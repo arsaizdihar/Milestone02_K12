@@ -1,6 +1,7 @@
 // src/pages/_app.tsx
 import { withTRPC } from '@trpc/next';
 import type { AppType } from 'next/dist/shared/lib/utils';
+import { Toaster } from 'react-hot-toast';
 import {} from 'react-query';
 import superjson from 'superjson';
 import { AuthProvider } from '~/components/AuthProvider';
@@ -14,6 +15,7 @@ const MyApp: AppType = ({
   return (
     <AuthProvider session={session}>
       <Component {...pageProps} />
+      <Toaster />
     </AuthProvider>
   );
 };

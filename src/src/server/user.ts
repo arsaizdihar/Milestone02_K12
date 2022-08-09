@@ -9,6 +9,7 @@ export const SIMPLE_USER_QUERY = {
   name: true,
   email: true,
   role: true,
+  photoUrl: true,
 } as const;
 
 export const getUserId = (req: OptionsType['req'], res: OptionsType['res']) => {

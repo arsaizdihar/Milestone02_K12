@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import uploadImage from '~/utils/upload';
 import { trpc } from '../../utils/trpc';
 
@@ -22,13 +23,37 @@ const RegisterPage = () => {
           if (!file) return;
           const formData = new FormData();
           formData.append('file', file);
-          const uploadRes = await uploadImage(formData);
-          const photoUrl = uploadRes.Location;
-          register
-            .mutateAsync({ email, name, password, WANumber, lineId, photoUrl })
-            .then(() => {
-              router.push('/auth/login');
-            });
+          const promise = new Promise<void>(async (resolve, reject) => {
+            try {
+              const uploadRes = await uploadImage(formData);
+              const photoUrl = uploadRes.Location;
+              register
+                .mutateAsync({
+                  email,
+                  name,
+                  password,
+                  WANumber,
+                  lineId,
+                  photoUrl,
+                })
+                .then(() => {
+                  resolve();
+                  router.push('/auth/login');
+                });
+            } catch (error) {
+              reject(error);
+            }
+          });
+
+          toast.promise(
+            promise,
+            {
+              loading: 'Registering...',
+              success: 'Register success. Please login.',
+              error: 'Register failed',
+            },
+            { id: 'register' },
+          );
         }}
         className="flex flex-col"
       >

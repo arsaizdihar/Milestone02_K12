@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import uploadImage from '~/utils/upload';
 import { trpc } from '../../utils/trpc';
 
 const RegisterPage = () => {
@@ -8,18 +9,25 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [WANumber, setWANumber] = useState('');
   const [lineId, setLineId] = useState('');
+  const imageRef = useRef<HTMLInputElement>(null);
   const register = trpc.useMutation('auth.registerStudent');
   const router = useRouter();
 
   return (
     <div className="h-screen flex items-center justify-center">
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          const file = imageRef.current?.files?.[0];
+          if (!file) return;
+          const formData = new FormData();
+          formData.append('file', file);
+          const uploadRes = await uploadImage(formData);
+          const photoUrl = uploadRes.Location;
           register
-            .mutateAsync({ email, name, password, WANumber, lineId })
+            .mutateAsync({ email, name, password, WANumber, lineId, photoUrl })
             .then(() => {
-              router.push('/api/auth/signin');
+              router.push('/auth/login');
             });
         }}
         className="flex flex-col"
@@ -60,6 +68,7 @@ const RegisterPage = () => {
           value={lineId}
           onChange={(e) => setLineId(e.target.value)}
         />
+        <input type="file" name="image" ref={imageRef} accept="image/*" />
         <button type="submit">REGISTER</button>
       </form>
     </div>

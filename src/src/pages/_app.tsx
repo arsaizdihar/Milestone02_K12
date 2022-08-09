@@ -1,12 +1,21 @@
 // src/pages/_app.tsx
 import { withTRPC } from '@trpc/next';
-import type { AppRouter } from '../server/router';
 import type { AppType } from 'next/dist/shared/lib/utils';
+import {} from 'react-query';
 import superjson from 'superjson';
+import { AuthProvider } from '~/components/AuthProvider';
+import type { AppRouter } from '../server/router';
 import '../styles/globals.css';
 
-const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+const MyApp: AppType = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
+  return (
+    <AuthProvider session={session}>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 };
 
 const getBaseUrl = () => {

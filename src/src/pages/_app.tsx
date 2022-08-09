@@ -1,5 +1,6 @@
 // src/pages/_app.tsx
 import { withTRPC } from '@trpc/next';
+import NextProgress from 'next-progress';
 import type { AppType } from 'next/dist/shared/lib/utils';
 import { Toaster } from 'react-hot-toast';
 import {} from 'react-query';
@@ -14,6 +15,7 @@ const MyApp: AppType = ({
 }) => {
   return (
     <AuthProvider session={session}>
+      <NextProgress options={{ showSpinner: false }} color="#80785C" />
       <div className="max-w-screen-mobile mx-auto border-x">
         <Component {...pageProps} />
       </div>

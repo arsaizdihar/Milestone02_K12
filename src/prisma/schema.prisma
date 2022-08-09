@@ -49,7 +49,7 @@ model Participation {
     id              String        @id @default(cuid())
     userId          String
     user            User          @relation(fields: [userId], references: [id])
-    tutorSchedul    TutorSchedule @relation(fields: [tutorScheduleId], references: [id])
+    tutorSchedule   TutorSchedule @relation(fields: [tutorScheduleId], references: [id])
     tutorScheduleId String
     createdAt       DateTime      @default(now())
 }

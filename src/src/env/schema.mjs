@@ -11,6 +11,8 @@ export const serverSchema = z.object({
   TOKEN_SECRET: z.string().default('thisissecret'),
   TOKEN_EXPIRES: z.number().default(3600 * 24 * 7),
   TOKEN_ISSUER: z.string().default('default issuer'),
+  S3_ACCESS_KEY: z.string().optional(),
+  S3_SECRET_KEY: z.string().optional(),
 });
 
 /**

@@ -14,7 +14,9 @@ const MyApp: AppType = ({
 }) => {
   return (
     <AuthProvider session={session}>
-      <Component {...pageProps} />
+      <div className="max-w-screen-mobile mx-auto border-x">
+        <Component {...pageProps} />
+      </div>
       <Toaster />
     </AuthProvider>
   );

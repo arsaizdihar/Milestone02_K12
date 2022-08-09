@@ -24,7 +24,7 @@ model User {
     major            String?
     tutorSchedules   TutorSchedule[]
     CVUrl            String?
-    IPK              String?
+    IPK              Float?
     description      String?         @db.Text
     photoUrl         String?
     studentSchedules Participation[]

@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           ) : (
             <div className="flex flex-col">
               <Link href="/auth/login">Login</Link>
-              <Link href="/auth/register">Register</Link>
+              <Link href="/auth/register/student">Register</Link>
             </div>
           )
         ) : null}

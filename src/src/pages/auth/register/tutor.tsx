@@ -1,17 +1,23 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import uploadImage from '~/utils/upload';
-import { trpc } from '../../utils/trpc';
+import { trpc } from '~/utils/trpc';
+import { uploadFile } from '~/utils/uploadFile';
 
-const RegisterPage = () => {
+const TutorRegister = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [WANumber, setWANumber] = useState('');
   const [lineId, setLineId] = useState('');
+  const [semester, setSemester] = useState('');
+  const [major, setMajor] = useState('');
+  const [IPK, setIPK] = useState('');
+  const [description, setDescription] = useState('');
   const imageRef = useRef<HTMLInputElement>(null);
-  const register = trpc.useMutation('auth.registerStudent');
+  const cvRef = useRef<HTMLInputElement>(null);
+  const register = trpc.useMutation('auth.registerTutor');
   const router = useRouter();
 
   return (
@@ -19,14 +25,20 @@ const RegisterPage = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const file = imageRef.current?.files?.[0];
-          if (!file) return;
-          const formData = new FormData();
-          formData.append('file', file);
+          const imageFile = imageRef.current?.files?.[0];
+          const cvFile = cvRef.current?.files?.[0];
+          const semesterNum = parseInt(semester);
+          const ipkNum = parseFloat(IPK);
+          if (!imageFile || !cvFile || isNaN(semesterNum) || isNaN(ipkNum))
+            return;
           const promise = new Promise<void>(async (resolve, reject) => {
             try {
-              const uploadRes = await uploadImage(formData);
-              const photoUrl = uploadRes.Location;
+              const [photoRes, cvRes] = await Promise.all([
+                uploadFile(imageFile),
+                uploadFile(cvFile),
+              ]);
+              const photoUrl = photoRes.Location;
+              const CVUrl = cvRes.Location;
               register
                 .mutateAsync({
                   email,
@@ -35,6 +47,11 @@ const RegisterPage = () => {
                   WANumber,
                   lineId,
                   photoUrl,
+                  major,
+                  semester: semesterNum,
+                  IPK: ipkNum,
+                  CVUrl,
+                  description,
                 })
                 .then(() => {
                   resolve();
@@ -57,14 +74,17 @@ const RegisterPage = () => {
         }}
         className="flex flex-col"
       >
+        <h1 className="font-bold text-xl">REGISTER TUTOR</h1>
         <input
           type="text"
           name="name"
+          required
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
+          required
           type="email"
           name="email"
           placeholder="Email"
@@ -72,6 +92,7 @@ const RegisterPage = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          required
           type="password"
           name="password"
           placeholder="Password"
@@ -80,6 +101,7 @@ const RegisterPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
+          required
           type="text"
           name="WANumber"
           placeholder="WA Number"
@@ -87,17 +109,52 @@ const RegisterPage = () => {
           onChange={(e) => setWANumber(e.target.value)}
         />
         <input
+          required
           type="text"
           name="lineId"
           placeholder="Line ID"
           value={lineId}
           onChange={(e) => setLineId(e.target.value)}
         />
+        <input
+          required
+          type="number"
+          name="semester"
+          placeholder="Semester"
+          value={semester}
+          onChange={(e) => setSemester(e.target.value)}
+        />
+        <input
+          type="number"
+          name="ipk"
+          placeholder="IPK TPB"
+          value={IPK}
+          onChange={(e) => setIPK(e.target.value)}
+        />
+        <input
+          required
+          type="text"
+          name="major"
+          placeholder="Major"
+          value={major}
+          onChange={(e) => setMajor(e.target.value)}
+        />
+        <textarea
+          name="description"
+          rows={3}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="About yourself"
+        />
+        <label>Photo</label>
         <input type="file" name="image" ref={imageRef} accept="image/*" />
+        <label>CV</label>
+        <input type="file" name="image" ref={cvRef} accept="application/pdf" />
         <button type="submit">REGISTER</button>
+        <Link href="/auth/register/student">Register as a Student</Link>
       </form>
     </div>
   );
 };
 
-export default RegisterPage;
+export default TutorRegister;

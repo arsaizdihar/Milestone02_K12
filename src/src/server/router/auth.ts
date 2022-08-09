@@ -37,7 +37,10 @@ export const authRouter = createRouter()
       lineId: z.string(),
       major: z.string(),
       semester: z.number().int(),
-      photoUrl: z.string(),
+      photoUrl: z.string().url(),
+      CVUrl: z.string().url(),
+      IPK: z.number(),
+      description: z.string(),
     }),
     async resolve({ input, ctx }) {
       const user = await ctx.prisma.user.create({

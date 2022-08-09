@@ -11,17 +11,47 @@ datasource db {
 }
 
 model User {
-    id        String   @id @default(cuid())
-    name      String
-    email     String   @unique
-    password  String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    role      Role     @default(STUDENT)
-    WANumber  String
-    lineId    String
-    semester  Int?
-    major     String?
+    id               String          @id @default(cuid())
+    name             String
+    email            String          @unique
+    password         String
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @updatedAt
+    role             Role            @default(STUDENT)
+    WANumber         String
+    lineId           String
+    semester         Int?
+    major            String?
+    tutorSchedules   TutorSchedule[]
+    CVUrl            String?
+    IPK              String?
+    description      String?         @db.Text
+    photoUrl         String?
+    studentSchedules Participation[]
+}
+
+model TutorSchedule {
+    id                String          @id @default(cuid())
+    userId            String
+    user              User            @relation(fields: [userId], references: [id])
+    startTime         DateTime
+    duration          Int
+    materi            String
+    materiDescription String
+    slot              Int?
+    meetingInfo       String?
+    price             Int             @default(0)
+    createdAt         DateTime        @default(now())
+    participants      Participation[]
+}
+
+model Participation {
+    id              String        @id @default(cuid())
+    userId          String
+    user            User          @relation(fields: [userId], references: [id])
+    tutorSchedul    TutorSchedule @relation(fields: [tutorScheduleId], references: [id])
+    tutorScheduleId String
+    createdAt       DateTime      @default(now())
 }
 
 enum Role {

@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import UserIcon from '~/assets/UserIcon';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import Input from '~/components/Input';
-import TextArea from '~/components/Textarea';
+import TextArea from '~/components/TextArea';
 import Title from '~/components/Title';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
@@ -78,7 +79,11 @@ const TutorRegister = () => {
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <Title>REGISTER TUTOR</Title>
-        <Input placeholder="Name" {...register('name', { required })} />
+        <Input
+          icon={<UserIcon />}
+          placeholder="Name"
+          {...register('name', { required })}
+        />
         <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
         <Input
           placeholder="Email"

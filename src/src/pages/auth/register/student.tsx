@@ -25,6 +25,7 @@ const StudentRegister = () => {
   } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerStudent');
   const router = useRouter();
+  const queryClient = trpc.useContext();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ image, ...data }) => {
     const file = image[0];
@@ -33,9 +34,10 @@ const StudentRegister = () => {
       try {
         const uploadRes = await uploadFile(file);
         const photoUrl = uploadRes.Location;
-        signup.mutateAsync({ ...data, photoUrl }).then(() => {
+        signup.mutateAsync({ ...data, photoUrl }).then((res) => {
           resolve();
-          router.push('/auth/login');
+          queryClient.setQueryData(['auth.currentUser'], res);
+          router.push('/student');
         });
       } catch (error) {
         reject(error);

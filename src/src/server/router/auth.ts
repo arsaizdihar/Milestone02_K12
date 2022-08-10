@@ -27,9 +27,11 @@ export const authRouter = createRouter()
           password: bcrypt.hashSync(input.password, 10),
           role: 'STUDENT',
         },
+        select: SIMPLE_USER_QUERY,
       });
+      signJWT(user, ctx.req, ctx.res);
 
-      return user.id;
+      return user;
     },
   })
   .mutation('registerTutor', {
@@ -57,9 +59,11 @@ export const authRouter = createRouter()
           password: bcrypt.hashSync(input.password, 10),
           role: 'TUTOR',
         },
+        select: SIMPLE_USER_QUERY,
       });
+      signJWT(user, ctx.req, ctx.res);
 
-      return user.id;
+      return user;
     },
   })
   .mutation('login', {

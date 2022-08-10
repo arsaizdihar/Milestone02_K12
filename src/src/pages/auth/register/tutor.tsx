@@ -30,6 +30,7 @@ const TutorRegister = () => {
   } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerTutor');
   const router = useRouter();
+  const queryClient = trpc.useContext();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ image, cv, ...data }) => {
     const imageFile = image[0];
@@ -45,9 +46,10 @@ const TutorRegister = () => {
         ]);
         const photoUrl = photoRes.Location;
         const CVUrl = cvRes.Location;
-        signup.mutateAsync({ ...data, photoUrl, CVUrl }).then(() => {
+        signup.mutateAsync({ ...data, photoUrl, CVUrl }).then((res) => {
           resolve();
-          router.push('/auth/login');
+          queryClient.setQueryData(['auth.currentUser'], res);
+          router.push('/tutor');
         });
       } catch (error) {
         reject(error);

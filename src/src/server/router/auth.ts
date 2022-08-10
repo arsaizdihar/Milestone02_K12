@@ -21,6 +21,15 @@ export const authRouter = createRouter()
       photoUrl: z.string(),
     }),
     async resolve({ input, ctx }) {
+      const ununiqueEmail = await ctx.prisma.user.findUnique({
+        where: { email: input.email },
+      });
+      if (ununiqueEmail) {
+        throw new TRPCError({
+          message: 'Email is already registered',
+          code: 'BAD_REQUEST',
+        });
+      }
       const user = await ctx.prisma.user.create({
         data: {
           ...input,
@@ -51,6 +60,15 @@ export const authRouter = createRouter()
       description: z.string(),
     }),
     async resolve({ input, ctx }) {
+      const ununiqueEmail = await ctx.prisma.user.findUnique({
+        where: { email: input.email },
+      });
+      if (ununiqueEmail) {
+        throw new TRPCError({
+          message: 'Email is already registered',
+          code: 'BAD_REQUEST',
+        });
+      }
       const user = await ctx.prisma.user.create({
         data: {
           ...input,

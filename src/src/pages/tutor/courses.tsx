@@ -11,11 +11,11 @@ const TutorCoursesPage = () => {
       <div>
         <h1>YOUR COURSES</h1>
         <div>
-          <h2>Upcoming</h2>
+          <h2 className="text-lg font-bold">Upcoming</h2>
           <Courses />
         </div>
         <div>
-          <h2>Past</h2>
+          <h2 className="text-lg font-bold">Past</h2>
           <Courses past />
         </div>
         <Button onClick={() => router.push('/tutor/add-course')}>

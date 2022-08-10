@@ -9,7 +9,7 @@ export const useRedirect = (role?: Role) => {
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {
-      router.push('/login');
+      router.push('/auth/login');
       return;
     }
 

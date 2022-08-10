@@ -13,11 +13,11 @@ const TutorHomePage = () => {
     <div className="flex flex-col h-screen items-center justify-center gap-1">
       <h1>ALL COURSES</h1>
       <div>
-        <h2>Upcoming</h2>
+        <h2 className="text-lg font-bold">Upcoming</h2>
         <Courses />
       </div>
       <div>
-        <h2>Past</h2>
+        <h2 className="text-lg font-bold">Past</h2>
         <Courses past />
       </div>
       <Button href="/tutor/courses" className="block">

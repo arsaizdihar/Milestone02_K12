@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
+import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
 interface Inputs {
@@ -16,15 +17,16 @@ interface Inputs {
   price: number;
 }
 
-const AddSchedulePage = () => {
+const AddCoursePage = () => {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({ mode: 'onBlur' });
   const router = useRouter();
+  useRedirect('TUTOR');
 
-  const addMutation = trpc.useMutation('tutor.createSchedule');
+  const addMutation = trpc.useMutation('tutor.createCourse');
 
   const required = 'This field is required';
 
@@ -36,9 +38,9 @@ const AddSchedulePage = () => {
     });
 
     toast.promise(promise, {
-      loading: 'Creating schedule...',
-      success: 'Schedule created',
-      error: 'Failed to create schedule',
+      loading: 'Creating course...',
+      success: 'Course created',
+      error: 'Failed to create course',
     });
   };
   return (
@@ -118,11 +120,11 @@ const AddSchedulePage = () => {
         ></input>
         <ErrorMessage errors={errors} name="price" />
         <Button type="submit" disabled={isSubmitting}>
-          Add new Schedule
+          Add new course
         </Button>
       </form>
     </div>
   );
 };
 
-export default AddSchedulePage;
+export default AddCoursePage;

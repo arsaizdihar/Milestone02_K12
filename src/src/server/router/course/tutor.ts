@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createTutorRouter } from '../context';
 
 export const tutorRouter = createTutorRouter()
-  .mutation('createSchedule', {
+  .mutation('createCourse', {
     input: z.object({
       startTime: z.date().refine((date) => date.getTime() > Date.now()),
       duration: z.number().positive(),
@@ -15,33 +15,38 @@ export const tutorRouter = createTutorRouter()
       subject: z.string(),
     }),
     async resolve({ ctx, input }) {
-      const newSchedule = await ctx.prisma.tutorSchedule.create({
+      const newCourse = await ctx.prisma.course.create({
         data: { ...input, userId: ctx.userId },
       });
-      return newSchedule;
+      return newCourse;
     },
   })
   .mutation('addMeetingInfo', {
-    input: z.object({ scheduleId: z.string(), meetingInfo: z.string() }),
+    input: z.object({ courseId: z.string(), meetingInfo: z.string() }),
     async resolve({ ctx, input }) {
-      const schedule = await ctx.prisma.tutorSchedule.findFirst({
-        where: { id: input.scheduleId, userId: ctx.userId },
+      const course = await ctx.prisma.course.findFirst({
+        where: { id: input.courseId, userId: ctx.userId },
         select: { id: true },
       });
-      if (!schedule) {
+      if (!course) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
-      const updatedSchedule = await ctx.prisma.tutorSchedule.update({
-        where: { id: schedule.id },
+      const updatedCourse = await ctx.prisma.course.update({
+        where: { id: course.id },
         data: { meetingInfo: input.meetingInfo },
       });
-      return updatedSchedule;
+      return updatedCourse;
     },
   })
-  .query('mySchedules', {
-    async resolve({ ctx }) {
-      return await ctx.prisma.tutorSchedule.findMany({
-        where: { userId: ctx.userId },
+  .query('myCourses', {
+    input: z.object({ past: z.boolean() }),
+    async resolve({ ctx, input }) {
+      const now = new Date();
+      return await ctx.prisma.course.findMany({
+        where: {
+          userId: ctx.userId,
+          startTime: input?.past ? { lte: now } : { gt: now },
+        },
       });
     },
   });

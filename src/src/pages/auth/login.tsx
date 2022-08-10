@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import Input from '~/components/Input';
 import { trpc } from '~/utils/trpc';
 
 interface Inputs {
@@ -45,13 +46,13 @@ const LoginPage = () => {
   return (
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <input
+        <Input
           type="email"
           placeholder="Email"
           {...register('email', { required })}
         />
         <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
-        <input
+        <Input
           type="password"
           placeholder="Password"
           {...register('password', { required })}

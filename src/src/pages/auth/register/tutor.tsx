@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import Input from '~/components/Input';
+import TextArea from '~/components/Textarea';
 import Title from '~/components/Title';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
@@ -76,46 +78,46 @@ const TutorRegister = () => {
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <Title>REGISTER TUTOR</Title>
-        <input placeholder="Name" {...register('name', { required })} />
+        <Input placeholder="Name" {...register('name', { required })} />
         <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
-        <input
+        <Input
           placeholder="Email"
           type="email"
           {...register('email', { required })}
         />
         <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
-        <input
+        <Input
           type="password"
           placeholder="Password"
           {...register('password', { required, minLength: 8 })}
         />
         <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
-        <input
+        <Input
           placeholder="WA Number"
           {...register('WANumber', { required })}
         />
         <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
-        <input placeholder="Line ID" {...register('lineId', { required })} />
+        <Input placeholder="Line ID" {...register('lineId', { required })} />
         <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
-        <input
+        <Input
           type="number"
           placeholder="Semester"
           {...register('semester', { required, valueAsNumber: true })}
         />
         <ErrorMessage errors={errors} name="semester" render={ErrorRenderer} />
-        <input
+        <Input
           type="number"
           placeholder="IPK TPB"
           {...register('IPK', { required, valueAsNumber: true })}
         />
         <ErrorMessage errors={errors} name="IPK" render={ErrorRenderer} />
-        <input
+        <Input
           type="text"
           placeholder="Major"
           {...register('major', { required })}
         />
         <ErrorMessage errors={errors} name="major" render={ErrorRenderer} />
-        <textarea
+        <TextArea
           rows={3}
           placeholder="About yourself"
           {...register('description', { required })}

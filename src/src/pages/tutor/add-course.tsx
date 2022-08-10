@@ -4,7 +4,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import Input from '~/components/Input';
+import TextArea from '~/components/Textarea';
 import { useRedirect } from '~/hooks/useRedirect';
+import { getNowValue } from '~/utils/getNowValue';
 import { trpc } from '~/utils/trpc';
 
 interface Inputs {
@@ -44,12 +47,14 @@ const AddCoursePage = () => {
       error: 'Failed to create course',
     });
   };
+
   return (
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <input
+        <Input
           type="datetime-local"
           placeholder="Start Time"
+          defaultValue={getNowValue()}
           {...register('startTime', {
             required,
             valueAsDate: true,
@@ -58,7 +63,7 @@ const AddCoursePage = () => {
           })}
         />
         <ErrorMessage errors={errors} name="startTime" render={ErrorRenderer} />
-        <input
+        <Input
           type="number"
           placeholder="Duration (minutes)"
           {...register('duration', {
@@ -71,19 +76,19 @@ const AddCoursePage = () => {
           })}
         />
         <ErrorMessage errors={errors} name="duration" render={ErrorRenderer} />
-        <input
+        <Input
           type="text"
           placeholder="Subject"
           {...register('subject', { required })}
         />
         <ErrorMessage errors={errors} name="subject" render={ErrorRenderer} />
-        <input
+        <Input
           type="text"
           placeholder="Material"
           {...register('materi', { required })}
         />
         <ErrorMessage errors={errors} name="materi" render={ErrorRenderer} />
-        <textarea
+        <TextArea
           cols={3}
           placeholder="Material Description"
           {...register('materiDescription', { required })}
@@ -93,7 +98,7 @@ const AddCoursePage = () => {
           name="materiDescription"
           render={ErrorRenderer}
         />
-        <input
+        <Input
           type="number"
           placeholder="Students slot"
           {...register('slot', {
@@ -103,9 +108,9 @@ const AddCoursePage = () => {
               message: 'Must be a positive number',
             },
           })}
-        ></input>
+        />
         <ErrorMessage errors={errors} name="slot" render={ErrorRenderer} />
-        <textarea
+        <TextArea
           cols={3}
           placeholder="Meeting info"
           {...register('meetingInfo')}
@@ -115,7 +120,7 @@ const AddCoursePage = () => {
           name="meetingInfo"
           render={ErrorRenderer}
         />
-        <input
+        <Input
           type="number"
           placeholder="Price"
           {...register('price', {
@@ -126,7 +131,7 @@ const AddCoursePage = () => {
               message: 'Must be a positive number',
             },
           })}
-        ></input>
+        ></Input>
         <ErrorMessage errors={errors} name="price" render={ErrorRenderer} />
         <Button type="submit" disabled={isSubmitting}>
           Add new course

@@ -1,12 +1,10 @@
 import Button from '~/components/Button';
+import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
-import useSession from '~/hooks/useSession';
 import { trpc } from '~/utils/trpc';
 
 const TutorHomePage = () => {
-  const logout = trpc.useMutation('auth.logout');
-  const queryClient = trpc.useContext();
-  const session = useSession();
+  const logout = useLogout();
   useRedirect('TUTOR');
 
   return (
@@ -23,17 +21,7 @@ const TutorHomePage = () => {
       <Button href="/tutor/courses" className="block">
         Your Courses
       </Button>
-      <Button
-        onClick={() =>
-          logout.mutate(null, {
-            onSuccess() {
-              queryClient.setQueryData(['auth.currentUser'], undefined);
-            },
-          })
-        }
-      >
-        Sign out
-      </Button>
+      <Button onClick={logout}>Sign out</Button>
     </div>
   );
 };

@@ -45,7 +45,7 @@ const AddCoursePage = () => {
     });
   };
   return (
-    <div className="h-screen w-full flex items-center justify-center">
+    <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <input
           type="datetime-local"

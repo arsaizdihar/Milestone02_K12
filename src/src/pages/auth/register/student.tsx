@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import Title from '~/components/Title';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -58,9 +59,9 @@ const StudentRegister = () => {
   const required = 'This field is required';
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <h1 className="font-bold text-xl">REGISTER STUDENT</h1>
+        <Title>REGISTER STUDENT</Title>
         <input placeholder="Name" {...register('name', { required })} />
         <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
         <input

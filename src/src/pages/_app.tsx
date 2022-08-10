@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import {} from 'react-query';
 import superjson from 'superjson';
 import { AuthProvider } from '~/components/AuthProvider';
+import NavBar from '~/components/nav/NavBar';
 import type { AppRouter } from '../server/router';
 import '../styles/globals.css';
 
@@ -16,7 +17,8 @@ const MyApp: AppType = ({
   return (
     <AuthProvider session={session}>
       <NextProgress options={{ showSpinner: false }} color="#80785C" />
-      <div className="max-w-screen-mobile mx-auto border-x">
+      <NavBar />
+      <div className="max-w-screen-mobile mx-auto border-x relative min-h-screen pt-16 flex flex-col">
         <Component {...pageProps} />
       </div>
       <Toaster />

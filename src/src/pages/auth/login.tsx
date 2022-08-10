@@ -43,7 +43,7 @@ const LoginPage = () => {
   const required = 'This field is required';
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <input
           type="email"

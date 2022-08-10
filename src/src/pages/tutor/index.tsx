@@ -1,4 +1,5 @@
 import Button from '~/components/Button';
+import Title from '~/components/Title';
 import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
@@ -8,8 +9,8 @@ const TutorHomePage = () => {
   useRedirect('TUTOR');
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center gap-1">
-      <h1>ALL COURSES</h1>
+    <div className="flex flex-col gap-1">
+      <Title>ALL COURSES</Title>
       <div>
         <h2 className="text-lg font-bold">Upcoming</h2>
         <Courses />
@@ -18,7 +19,7 @@ const TutorHomePage = () => {
         <h2 className="text-lg font-bold">Past</h2>
         <Courses past />
       </div>
-      <Button href="/tutor/courses" className="block">
+      <Button href="/tutor/courses" className="flex justify-center">
         Your Courses
       </Button>
       <Button onClick={logout}>Sign out</Button>

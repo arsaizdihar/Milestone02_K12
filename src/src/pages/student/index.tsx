@@ -8,7 +8,7 @@ const StudentHomePage = () => {
   const session = useSession();
   useRedirect('STUDENT');
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
+    <div className="flex flex-col">
       <p>{session.data?.name}</p>
       <Button onClick={logout}>Log out</Button>
     </div>

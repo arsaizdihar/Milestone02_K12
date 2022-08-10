@@ -36,6 +36,7 @@ model TutorSchedule {
     user              User            @relation(fields: [userId], references: [id])
     startTime         DateTime
     duration          Int
+    subject           String
     materi            String
     materiDescription String
     slot              Int?

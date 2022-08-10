@@ -10,6 +10,7 @@ interface Props {
   href?: string;
   onClick?: () => void;
   type?: 'submit' | 'button';
+  disabled?: boolean;
 }
 
 const Button = React.forwardRef<any, Props>(function Button(

@@ -12,6 +12,7 @@ export const tutorRouter = createTutorRouter()
       slot: z.number().positive().optional(),
       meetingInfo: z.string().optional(),
       price: z.number().default(0),
+      subject: z.string(),
     }),
     async resolve({ ctx, input }) {
       const newSchedule = await ctx.prisma.tutorSchedule.create({
@@ -35,5 +36,12 @@ export const tutorRouter = createTutorRouter()
         data: { meetingInfo: input.meetingInfo },
       });
       return updatedSchedule;
+    },
+  })
+  .query('mySchedules', {
+    async resolve({ ctx }) {
+      return await ctx.prisma.tutorSchedule.findMany({
+        where: { userId: ctx.userId },
+      });
     },
   });

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
+import ErrorRenderer from '~/components/ErrorRenderer';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -73,64 +74,68 @@ const TutorRegister = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <h1 className="font-bold text-xl">REGISTER TUTOR</h1>
         <input placeholder="Name" {...register('name', { required })} />
-        <ErrorMessage errors={errors} name="name" />
+        <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
         <input
           placeholder="Email"
           type="email"
           {...register('email', { required })}
         />
-        <ErrorMessage errors={errors} name="email" />
+        <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
         <input
           type="password"
           placeholder="Password"
           {...register('password', { required, minLength: 8 })}
         />
-        <ErrorMessage errors={errors} name="password" />
+        <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
         <input
           placeholder="WA Number"
           {...register('WANumber', { required })}
         />
-        <ErrorMessage errors={errors} name="WANumber" />
+        <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
         <input placeholder="Line ID" {...register('lineId', { required })} />
-        <ErrorMessage errors={errors} name="lineId" />
+        <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
         <input
           type="number"
           placeholder="Semester"
           {...register('semester', { required, valueAsNumber: true })}
         />
-        <ErrorMessage errors={errors} name="semester" />
+        <ErrorMessage errors={errors} name="semester" render={ErrorRenderer} />
         <input
           type="number"
           placeholder="IPK TPB"
           {...register('IPK', { required, valueAsNumber: true })}
         />
-        <ErrorMessage errors={errors} name="IPK" />
+        <ErrorMessage errors={errors} name="IPK" render={ErrorRenderer} />
         <input
           type="text"
           placeholder="Major"
           {...register('major', { required })}
         />
-        <ErrorMessage errors={errors} name="major" />
+        <ErrorMessage errors={errors} name="major" render={ErrorRenderer} />
         <textarea
           rows={3}
           placeholder="About yourself"
           {...register('description', { required })}
         />
-        <ErrorMessage errors={errors} name="description" />
+        <ErrorMessage
+          errors={errors}
+          name="description"
+          render={ErrorRenderer}
+        />
         <label>Photo</label>
         <input
           type="file"
           accept="image/*"
           {...register('image', { required })}
         />
-        <ErrorMessage errors={errors} name="image" />
+        <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
         <label>CV</label>
         <input
           type="file"
           accept="application/pdf"
           {...register('cv', { required })}
         />
-        <ErrorMessage errors={errors} name="cv" />
+        <ErrorMessage errors={errors} name="cv" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>
         <Button
           href="/auth/register/student"

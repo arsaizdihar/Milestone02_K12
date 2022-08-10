@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
+import ErrorRenderer from '~/components/ErrorRenderer';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -59,13 +60,13 @@ const StudentRegister = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <h1 className="font-bold text-xl">REGISTER STUDENT</h1>
         <input placeholder="Name" {...register('name', { required })} />
-        <ErrorMessage errors={errors} name="name" />
+        <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
         <input
           placeholder="Email"
           type="email"
           {...register('email', { required })}
         />
-        <ErrorMessage errors={errors} name="email" />
+        <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
         <input
           type="password"
           placeholder="Password"
@@ -77,21 +78,21 @@ const StudentRegister = () => {
             },
           })}
         />
-        <ErrorMessage errors={errors} name="password" />
+        <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
         <input
           placeholder="WA Number"
           {...register('WANumber', { required })}
         />
-        <ErrorMessage errors={errors} name="WANumber" />
+        <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
         <input placeholder="Line ID" {...register('lineId', { required })} />
-        <ErrorMessage errors={errors} name="lineId" />
+        <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
         <label>Photo</label>
         <input
           type="file"
           accept="image/*"
           {...register('image', { required })}
         />
-        <ErrorMessage errors={errors} name="image" />
+        <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>
         <Button
           href="/auth/register/tutor"

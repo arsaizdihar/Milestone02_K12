@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
+import ErrorRenderer from '~/components/ErrorRenderer';
 import { trpc } from '~/utils/trpc';
 
 interface Inputs {
@@ -49,13 +50,13 @@ const LoginPage = () => {
           placeholder="Email"
           {...register('email', { required })}
         />
-        <ErrorMessage errors={errors} name="email" />
+        <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
         <input
           type="password"
           placeholder="Password"
           {...register('password', { required })}
         />
-        <ErrorMessage errors={errors} name="password" />
+        <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
         <Button type="submit">LOGIN</Button>
         <p>
           Don't have an account?{' '}

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
+import ErrorRenderer from '~/components/ErrorRenderer';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
@@ -56,7 +57,7 @@ const AddCoursePage = () => {
               value > new Date() || 'Start time must be in the future',
           })}
         />
-        <ErrorMessage errors={errors} name="startTime" />
+        <ErrorMessage errors={errors} name="startTime" render={ErrorRenderer} />
         <input
           type="number"
           placeholder="Duration (minutes)"
@@ -69,25 +70,29 @@ const AddCoursePage = () => {
             valueAsNumber: true,
           })}
         />
-        <ErrorMessage errors={errors} name="duration" />
+        <ErrorMessage errors={errors} name="duration" render={ErrorRenderer} />
         <input
           type="text"
           placeholder="Subject"
           {...register('subject', { required })}
         />
-        <ErrorMessage errors={errors} name="subject" />
+        <ErrorMessage errors={errors} name="subject" render={ErrorRenderer} />
         <input
           type="text"
           placeholder="Material"
           {...register('materi', { required })}
         />
-        <ErrorMessage errors={errors} name="materi" />
+        <ErrorMessage errors={errors} name="materi" render={ErrorRenderer} />
         <textarea
           cols={3}
           placeholder="Material Description"
           {...register('materiDescription', { required })}
         />
-        <ErrorMessage errors={errors} name="materiDescription" />
+        <ErrorMessage
+          errors={errors}
+          name="materiDescription"
+          render={ErrorRenderer}
+        />
         <input
           type="number"
           placeholder="Students slot"
@@ -99,13 +104,17 @@ const AddCoursePage = () => {
             },
           })}
         ></input>
-        <ErrorMessage errors={errors} name="slot" />
+        <ErrorMessage errors={errors} name="slot" render={ErrorRenderer} />
         <textarea
           cols={3}
           placeholder="Meeting info"
           {...register('meetingInfo')}
         />
-        <ErrorMessage errors={errors} name="meetingInfo" />
+        <ErrorMessage
+          errors={errors}
+          name="meetingInfo"
+          render={ErrorRenderer}
+        />
         <input
           type="number"
           placeholder="Price"
@@ -118,7 +127,7 @@ const AddCoursePage = () => {
             },
           })}
         ></input>
-        <ErrorMessage errors={errors} name="price" />
+        <ErrorMessage errors={errors} name="price" render={ErrorRenderer} />
         <Button type="submit" disabled={isSubmitting}>
           Add new course
         </Button>

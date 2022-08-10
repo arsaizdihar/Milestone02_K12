@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@hookform/error-message';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -25,7 +26,7 @@ const TutorRegister = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerTutor');
   const router = useRouter();
 
@@ -65,61 +66,71 @@ const TutorRegister = () => {
     promise.catch(console.log);
   };
 
+  const required = 'This field is required';
+
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <h1 className="font-bold text-xl">REGISTER TUTOR</h1>
-        <input placeholder="Name" {...register('name', { required: true })} />
+        <input placeholder="Name" {...register('name', { required })} />
+        <ErrorMessage errors={errors} name="name" />
         <input
           placeholder="Email"
           type="email"
-          {...register('email', { required: true })}
+          {...register('email', { required })}
         />
+        <ErrorMessage errors={errors} name="email" />
         <input
           type="password"
           placeholder="Password"
-          {...register('password', { required: true, minLength: 8 })}
+          {...register('password', { required, minLength: 8 })}
         />
+        <ErrorMessage errors={errors} name="password" />
         <input
           placeholder="WA Number"
-          {...register('WANumber', { required: true })}
+          {...register('WANumber', { required })}
         />
-        <input
-          placeholder="Line ID"
-          {...register('lineId', { required: true })}
-        />
+        <ErrorMessage errors={errors} name="WANumber" />
+        <input placeholder="Line ID" {...register('lineId', { required })} />
+        <ErrorMessage errors={errors} name="lineId" />
         <input
           type="number"
           placeholder="Semester"
-          {...register('semester', { required: true, valueAsNumber: true })}
+          {...register('semester', { required, valueAsNumber: true })}
         />
+        <ErrorMessage errors={errors} name="semester" />
         <input
           type="number"
           placeholder="IPK TPB"
-          {...register('IPK', { required: true, valueAsNumber: true })}
+          {...register('IPK', { required, valueAsNumber: true })}
         />
+        <ErrorMessage errors={errors} name="IPK" />
         <input
           type="text"
           placeholder="Major"
-          {...register('major', { required: true })}
+          {...register('major', { required })}
         />
+        <ErrorMessage errors={errors} name="major" />
         <textarea
           rows={3}
           placeholder="About yourself"
-          {...register('description', { required: true })}
+          {...register('description', { required })}
         />
+        <ErrorMessage errors={errors} name="description" />
         <label>Photo</label>
         <input
           type="file"
           accept="image/*"
-          {...register('image', { required: true })}
+          {...register('image', { required })}
         />
+        <ErrorMessage errors={errors} name="image" />
         <label>CV</label>
         <input
           type="file"
           accept="application/pdf"
-          {...register('cv', { required: true })}
+          {...register('cv', { required })}
         />
+        <ErrorMessage errors={errors} name="cv" />
         <Button type="submit">REGISTER</Button>
         <Button
           href="/auth/register/student"

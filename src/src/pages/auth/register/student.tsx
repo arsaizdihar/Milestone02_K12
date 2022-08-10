@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@hookform/error-message';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -20,7 +21,7 @@ const StudentRegister = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerStudent');
   const router = useRouter();
 
@@ -51,35 +52,46 @@ const StudentRegister = () => {
     );
   };
 
+  const required = 'This field is required';
+
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
         <h1 className="font-bold text-xl">REGISTER STUDENT</h1>
-        <input placeholder="Name" {...register('name', { required: true })} />
+        <input placeholder="Name" {...register('name', { required })} />
+        <ErrorMessage errors={errors} name="name" />
         <input
           placeholder="Email"
           type="email"
-          {...register('email', { required: true })}
+          {...register('email', { required })}
         />
+        <ErrorMessage errors={errors} name="email" />
         <input
           type="password"
           placeholder="Password"
-          {...register('password', { required: true, minLength: 8 })}
+          {...register('password', {
+            required,
+            minLength: {
+              value: 8,
+              message: 'Password must be at least 8 characters',
+            },
+          })}
         />
+        <ErrorMessage errors={errors} name="password" />
         <input
           placeholder="WA Number"
-          {...register('WANumber', { required: true })}
+          {...register('WANumber', { required })}
         />
-        <input
-          placeholder="Line ID"
-          {...register('lineId', { required: true })}
-        />
+        <ErrorMessage errors={errors} name="WANumber" />
+        <input placeholder="Line ID" {...register('lineId', { required })} />
+        <ErrorMessage errors={errors} name="lineId" />
         <label>Photo</label>
         <input
           type="file"
           accept="image/*"
-          {...register('image', { required: true })}
+          {...register('image', { required })}
         />
+        <ErrorMessage errors={errors} name="image" />
         <Button type="submit">REGISTER</Button>
         <Button
           href="/auth/register/tutor"

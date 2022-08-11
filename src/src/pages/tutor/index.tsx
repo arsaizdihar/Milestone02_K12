@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Button from '~/components/Button';
+import CourseInfo from '~/components/CourseInfo';
 import SearchField from '~/components/SearchField';
 import Title from '~/components/Title';
 import { useLogout } from '~/hooks/useLogout';
@@ -40,11 +41,9 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   const query = trpc.useQuery(['allCourses', { past, search }]);
   if (!query.data) return <>Loading...</>;
   return (
-    <ul>
+    <ul className="flex flex-col gap-4">
       {query.data.map((course) => (
-        <li key={course.id}>
-          {course.subject} - {course.materi}
-        </li>
+        <CourseInfo key={course.id} {...course} />
       ))}
     </ul>
   );

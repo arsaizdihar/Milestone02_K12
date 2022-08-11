@@ -9,6 +9,7 @@ module.exports = {
           pink: '#FEF5FF',
           grey: '#D9D9D9',
           brown: '#80785C',
+          blue: '#004382',
         },
         secondary: {
           brown: '#787373',

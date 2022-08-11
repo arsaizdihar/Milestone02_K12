@@ -18,7 +18,7 @@ const MyApp: AppType = ({
     <AuthProvider session={session}>
       <NextProgress options={{ showSpinner: false }} color="#80785C" />
       <NavBar />
-      <div className="max-w-screen-mobile mx-auto border-x relative min-h-screen pt-16 flex flex-col">
+      <div className="max-w-screen-mobile mx-auto border-x relative min-h-screen pt-16 flex flex-col px-4">
         <Component {...pageProps} />
       </div>
       <Toaster />

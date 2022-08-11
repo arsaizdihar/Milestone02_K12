@@ -38,3 +38,12 @@ export const createTutorRouter = () =>
     }
     return next({ ctx: { ...ctx, user } });
   });
+
+  export const createStudentRouter = () =>
+  createAuthRouter().middleware(async ({ ctx, next }) => {
+    const user = await getUserById(ctx.userId);
+    if (!user || user.role !== 'STUDENT') {
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
+    }
+    return next({ ctx: { ...ctx, user } });
+  });

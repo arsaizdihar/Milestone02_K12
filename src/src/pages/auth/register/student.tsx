@@ -81,6 +81,7 @@ const StudentRegister = () => {
         <Input
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           {...register('password', {
             required,
             minLength: {
@@ -91,7 +92,9 @@ const StudentRegister = () => {
         />
         <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
         <Input
+          type="tel"
           placeholder="WA Number"
+          autoComplete="tel"
           {...register('WANumber', { required })}
         />
         <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />

@@ -95,11 +95,14 @@ const TutorRegister = () => {
         <Input
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           {...register('password', { required, minLength: 8 })}
         />
         <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
         <Input
+          type="tel"
           placeholder="WA Number"
+          autoComplete="tel"
           {...register('WANumber', { required })}
         />
         <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />

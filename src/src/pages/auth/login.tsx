@@ -55,6 +55,7 @@ const LoginPage = () => {
         <Input
           type="password"
           placeholder="Password"
+          autoComplete="current-password"
           {...register('password', { required })}
         />
         <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />

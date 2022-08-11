@@ -39,13 +39,17 @@ export const tutorRouter = createTutorRouter()
     },
   })
   .query('myCourses', {
-    input: z.object({ past: z.boolean() }),
+    input: z.object({ past: z.boolean(), search: z.string().optional() }),
     async resolve({ ctx, input }) {
       const now = new Date();
       return await ctx.prisma.course.findMany({
         where: {
           userId: ctx.userId,
           startTime: input?.past ? { lte: now } : { gt: now },
+          OR: [
+            { materi: { contains: input.search, mode: 'insensitive' } },
+            { subject: { contains: input.search, mode: 'insensitive' } },
+          ],
         },
       });
     },

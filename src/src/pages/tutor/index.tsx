@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Button from '~/components/Button';
+import SearchField from '~/components/SearchField';
 import Title from '~/components/Title';
 import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
@@ -6,18 +8,20 @@ import { trpc } from '~/utils/trpc';
 
 const TutorHomePage = () => {
   const logout = useLogout();
+  const [search, setSearch] = useState('');
   useRedirect('TUTOR');
 
   return (
     <div className="flex flex-col gap-1">
       <Title>ALL COURSES</Title>
+      <SearchField onSearch={setSearch} />
       <div>
         <h2 className="text-lg font-bold">Upcoming</h2>
-        <Courses />
+        <Courses search={search} />
       </div>
       <div>
         <h2 className="text-lg font-bold">Past</h2>
-        <Courses past />
+        <Courses past search={search} />
       </div>
       <Button href="/tutor/courses" className="flex justify-center">
         Your Courses
@@ -29,10 +33,11 @@ const TutorHomePage = () => {
 
 interface CoursesProps {
   past?: boolean;
+  search?: string;
 }
 
-const Courses: React.FC<CoursesProps> = ({ past = false }) => {
-  const query = trpc.useQuery(['allCourses', { past }]);
+const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
+  const query = trpc.useQuery(['allCourses', { past, search }]);
   if (!query.data) return <>Loading...</>;
   return (
     <ul>

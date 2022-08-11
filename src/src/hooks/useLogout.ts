@@ -10,7 +10,6 @@ export const useLogout = () => {
     logout.mutate(null, {
       onSuccess() {
         queryClient.setQueryData(['auth.currentUser'], undefined);
-        router.push('/auth/login');
       },
     });
 };

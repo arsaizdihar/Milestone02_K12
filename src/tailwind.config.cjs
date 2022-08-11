@@ -4,10 +4,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary-cream': '#FFF7E2',
-        'primary-pink': '#FEF5FF',
-        'primary-grey': '#D9D9D9',
-        'primary-brown': '#80785C',
+        primary: {
+          cream: '#FFF7E2',
+          pink: '#FEF5FF',
+          grey: '#D9D9D9',
+          brown: '#80785C',
+        },
+        secondary: {
+          brown: '#787373',
+        },
       },
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],

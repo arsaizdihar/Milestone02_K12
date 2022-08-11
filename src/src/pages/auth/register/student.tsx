@@ -102,6 +102,7 @@ const StudentRegister = () => {
           name="image"
           control={control as any}
           rules={{ required }}
+          placeholder="Upload Photo"
         />
         <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>

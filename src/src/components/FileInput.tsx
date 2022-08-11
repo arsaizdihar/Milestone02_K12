@@ -40,7 +40,11 @@ function FileInput({
       />
       <div className="flex items-center gap-1">
         {icon}
-        <span className={classNames(value ? '' : 'text-[#787373] select-none')}>
+        <span
+          className={classNames(
+            value ? '' : 'text-secondary-brown select-none',
+          )}
+        >
           {value ? inputRef.current?.files?.[0]?.name : placeholder}
         </span>
       </div>

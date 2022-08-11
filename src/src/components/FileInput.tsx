@@ -17,9 +17,10 @@ function FileInput({
   accept,
   ...props
 }: InputProps) {
-  const { field } = useController(props);
+  const {
+    field: { value, ...field },
+  } = useController(props);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const value: string = field.value ?? '';
   return (
     <div
       className={classNames(
@@ -32,7 +33,7 @@ function FileInput({
         type="file"
         accept={accept}
         {...field}
-        value={value}
+        onChange={(e) => field.onChange(e.target.files)}
         ref={(e) => {
           inputRef.current = e;
           field.ref(e);
@@ -42,10 +43,10 @@ function FileInput({
         {icon}
         <span
           className={classNames(
-            value ? '' : 'text-secondary-brown select-none',
+            value && value[0] ? '' : 'text-secondary-brown select-none',
           )}
         >
-          {value ? inputRef.current?.files?.[0]?.name : placeholder}
+          {value && value[0] ? inputRef.current?.files?.[0]?.name : placeholder}
         </span>
       </div>
       <Button type="button" size="sm" onClick={() => inputRef.current?.click()}>

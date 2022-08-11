@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import Input from '~/components/Input';
-import TextArea from '~/components/Textarea';
+import TextArea from '~/components/TextArea';
 import { useRedirect } from '~/hooks/useRedirect';
 import { getNowValue } from '~/utils/getNowValue';
 import { trpc } from '~/utils/trpc';

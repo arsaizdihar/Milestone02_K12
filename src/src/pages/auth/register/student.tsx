@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import UserIcon from '~/assets/UserIcon';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import FileInput from '~/components/FileInput';
 import Input from '~/components/Input';
 import Title from '~/components/Title';
 import { trpc } from '~/utils/trpc';
@@ -24,6 +25,7 @@ const StudentRegister = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerStudent');
@@ -95,11 +97,11 @@ const StudentRegister = () => {
         <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
         <Input placeholder="Line ID" {...register('lineId', { required })} />
         <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
-        <label>Photo</label>
-        <input
-          type="file"
+        <FileInput
           accept="image/*"
-          {...register('image', { required })}
+          name="image"
+          control={control as any}
+          rules={{ required }}
         />
         <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>

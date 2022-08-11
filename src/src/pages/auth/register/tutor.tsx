@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import UserIcon from '~/assets/UserIcon';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
+import FileInput from '~/components/FileInput';
 import Input from '~/components/Input';
 import TextArea from '~/components/TextArea';
 import Title from '~/components/Title';
@@ -31,6 +32,7 @@ const TutorRegister = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<Inputs>({ mode: 'onBlur' });
   const signup = trpc.useMutation('auth.registerTutor');
   const router = useRouter();
@@ -39,8 +41,7 @@ const TutorRegister = () => {
   const onSubmit: SubmitHandler<Inputs> = async ({ image, cv, ...data }) => {
     const imageFile = image[0];
     const cvFile = cv[0];
-    console.log(imageFile);
-    console.log(cvFile);
+
     if (!imageFile || !cvFile) return;
     const promise = new Promise<void>(async (resolve, reject) => {
       try {
@@ -132,18 +133,20 @@ const TutorRegister = () => {
           name="description"
           render={ErrorRenderer}
         />
-        <label>Photo</label>
-        <input
-          type="file"
+        <FileInput
+          placeholder="Upload Photo"
           accept="image/*"
-          {...register('image', { required })}
+          name="image"
+          control={control as any}
+          rules={{ required }}
         />
         <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
-        <label>CV</label>
-        <input
-          type="file"
+        <FileInput
+          placeholder="Upload CV"
           accept="application/pdf"
-          {...register('cv', { required })}
+          name="cv"
+          control={control as any}
+          rules={{ required }}
         />
         <ErrorMessage errors={errors} name="cv" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>

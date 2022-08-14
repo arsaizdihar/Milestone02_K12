@@ -84,7 +84,7 @@ const editprofile = () => {
           {...register('WANumber')}
       />
       <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
-
+ 
 
       <Input 
           placeholder="Line ID" 

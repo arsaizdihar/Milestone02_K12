@@ -106,5 +106,5 @@ const editprofile = () => {
       </Button>
 
 )}
-
+ 
 prisma.user.update({where: {id: ctx.userId}, data: {editprofile}})

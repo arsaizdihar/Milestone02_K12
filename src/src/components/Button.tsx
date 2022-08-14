@@ -4,7 +4,7 @@ import React from 'react';
 
 interface Props {
   size?: 'sm' | 'md';
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'blue';
   children?: React.ReactNode;
   className?: string;
   href?: string;
@@ -24,6 +24,7 @@ const Button = React.forwardRef<any, Props>(function Button(
     {
       primary: 'bg-primary-brown text-white',
       secondary: 'border border-primary-grey',
+      blue: 'bg-primary-blue text-white',
     }[variant],
     className,
   );

@@ -8,8 +8,8 @@ import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import FileInput from '~/components/FileInput';
 import Input from '~/components/Input';
+import Tabs from '~/components/Tabs';
 import TextArea from '~/components/TextArea';
-import Title from '~/components/Title';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -79,7 +79,11 @@ const TutorRegister = () => {
   return (
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <Title>REGISTER TUTOR</Title>
+        <Tabs
+          activeIndex={1}
+          tab1={{ label: 'Student', href: '/auth/register/student' }}
+          tab2={{ label: 'Tutor', href: '/auth/register/tutor' }}
+        />
         <Input
           icon={<UserIcon />}
           placeholder="Name"
@@ -153,13 +157,6 @@ const TutorRegister = () => {
         />
         <ErrorMessage errors={errors} name="cv" render={ErrorRenderer} />
         <Button type="submit">REGISTER</Button>
-        <Button
-          href="/auth/register/student"
-          className="flex justify-center"
-          variant="secondary"
-        >
-          Register as a Student
-        </Button>
         <p>
           Already have an account?{' '}
           <Link href="/auth/login">

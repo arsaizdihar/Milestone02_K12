@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from '~/components/Button';
 import CourseInfo from '~/components/CourseInfo';
 import SearchField from '~/components/SearchField';
-import Title from '~/components/Title';
+import Tabs from '~/components/Tabs';
 import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
@@ -14,7 +14,11 @@ const TutorHomePage = () => {
 
   return (
     <div className="flex flex-col gap-1">
-      <Title>ALL COURSES</Title>
+      <Tabs
+        activeIndex={1}
+        tab1={{ label: 'Your Courses', href: '/tutor/courses' }}
+        tab2={{ label: 'All Session', href: '/tutor' }}
+      />
       <SearchField onSearch={setSearch} />
       <div>
         <h2 className="text-lg font-bold">Upcoming</h2>

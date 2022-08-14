@@ -44,12 +44,24 @@ export const tutorRouter = createTutorRouter()
       const now = new Date();
       return await ctx.prisma.course.findMany({
         where: {
-          userId: ctx.userId,
+          userId : ctx.userId,
           startTime: input?.past ? { lte: now } : { gt: now },
           OR: [
             { materi: { contains: input.search, mode: 'insensitive' } },
             { subject: { contains: input.search, mode: 'insensitive' } },
           ],
+        },
+      });
+    },
+  })
+  
+  .query('getAllTutors', {
+    input: z.object({ past: z.boolean(), search: z.string().optional() }),
+    async resolve({ ctx, input }) {
+      const now = new Date();
+      return await ctx.prisma.course.findMany({
+        where: {
+          Role : 'TUTOR'
         },
       });
     },

@@ -4,6 +4,7 @@ import Button from '~/components/Button';
 import SearchField from '~/components/SearchField';
 import Tabs from '~/components/Tabs';
 import TimeSelect from '~/components/TimeSelect';
+import CourseInfo from '~/components/tutor/CourseInfo';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
@@ -40,9 +41,7 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   return (
     <ul>
       {query.data.map((course) => (
-        <li key={course.id}>
-          {course.subject} - {course.materi}
-        </li>
+        <CourseInfo key={course.id} course={course} onEditClick={() => {}} />
       ))}
     </ul>
   );

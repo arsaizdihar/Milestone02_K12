@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Button from '~/components/Button';
-import CourseInfo from '~/components/CourseInfo';
 import SearchField from '~/components/SearchField';
 import Tabs from '~/components/Tabs';
+import CourseInfo from '~/components/tutor/CourseInfo';
 import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
@@ -47,7 +47,7 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   return (
     <ul className="flex flex-col gap-4">
       {query.data.map((course) => (
-        <CourseInfo key={course.id} {...course} />
+        <CourseInfo key={course.id} course={course} />
       ))}
     </ul>
   );

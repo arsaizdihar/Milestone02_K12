@@ -1,6 +1,6 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createStudentRouter } from '../context';
-import { TRPCError } from '@trpc/server';
 
 export const studentRouter = createStudentRouter()
   .query('myCourses', {
@@ -19,7 +19,6 @@ export const studentRouter = createStudentRouter()
       });
     },
   })
-
   .query('getAllTutors', {
     input: z.object({ past: z.boolean(), search: z.string().optional() }),
     async resolve({ ctx, input }) {

@@ -26,6 +26,22 @@ export const studentRouter = createStudentRouter().query('myCourses', {
         where: {
           role : "TUTOR"
         },
+        select : {
+          name : true,
+          email : true,
+          id : true,
+          IPK : true,
+          semester : true,
+          lineId : true,
+          tutorCourses : true,
+          major : true, 
+          updatedAt : true,
+          studentCourses : true,
+          createdAt : true,
+          description : true,
+          photoUrl : true,
+          WANumber : true,
+        }
       });
     },
   });

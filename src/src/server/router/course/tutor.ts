@@ -53,4 +53,20 @@ export const tutorRouter = createTutorRouter()
         },
       });
     },
+  })
+  .mutation('deleteCourse', {
+    input: z.object({ courseId: z.string() }),
+    async resolve({ ctx, input }) {
+      const course = await ctx.prisma.course.findFirst({
+        where: { id: input.courseId, userId: ctx.userId },
+        include: {_count: {select: {participants: true}}}
+      });
+      if (!course?._count.participants) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+      const deletedCourse = await ctx.prisma.course.delete({
+        where: { id: input.courseId },
+      });
+      return deletedCourse;
+    },
   });

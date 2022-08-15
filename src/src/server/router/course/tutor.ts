@@ -61,8 +61,11 @@ export const tutorRouter = createTutorRouter()
         where: { id: input.courseId, userId: ctx.userId },
         include: {_count: {select: {participants: true}}}
       });
-      if (!course?._count.participants) {
-        throw new TRPCError({ code: 'NOT_FOUND' });
+      if (!course) {
+        throw new TRPCError({ code: 'NOT_FOUND' })
+      }
+      if (course._count.participants > 0) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'This course already has participants' });
       }
       const deletedCourse = await ctx.prisma.course.delete({
         where: { id: input.courseId },

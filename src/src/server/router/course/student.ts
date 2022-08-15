@@ -22,9 +22,9 @@ export const studentRouter = createStudentRouter().query('myCourses', {
     input: z.object({ past: z.boolean(), search: z.string().optional() }),
     async resolve({ ctx, input }) {
       const now = new Date();
-      return await ctx.prisma.course.findMany({
+      return await ctx.prisma.user.findMany({
         where: {
-          Role : 'TUTOR'
+          role : "TUTOR"
         },
       });
     },

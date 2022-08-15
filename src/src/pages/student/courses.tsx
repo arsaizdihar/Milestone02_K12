@@ -4,6 +4,7 @@ import TimeSelect from '~/components/TimeSelect';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 import Tabs from '~/components/Tabs';
+import Title from '~/components/Title';
 
 const TutorCoursesPage = () => { 
   const [search, setSearch] = useState('');
@@ -15,7 +16,8 @@ const TutorCoursesPage = () => {
         activeIndex={0}
         tab1={{ label: 'Your Courses', href: '/student/courses' }}
         tab2={{ label: 'Available', href: '/student' }} 
-      />
+        />
+      <Title>YOUR COURSES</Title> {/*Ini masih perlu gak?*/}
       <SearchField onSearch={setSearch} />
       <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
       <Courses search={search} past={selectedTime === 'past'} />

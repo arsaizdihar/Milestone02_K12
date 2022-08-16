@@ -95,7 +95,36 @@ export const tutorRouter = createTutorRouter()
             ? bcrypt.hashSync(input.password, 10)
             : undefined,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          semester: true,
+          IPK: true,
+          description: true,
+          major: true,
+        },
       });
       return updatedUser;
+    },
+  })
+  .query('profile', {
+    async resolve({ ctx }) {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          semester: true,
+          IPK: true,
+          description: true,
+          major: true,
+        },
+      });
     },
   });

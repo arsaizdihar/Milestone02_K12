@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import UserIcon from '~/assets/UserIcon';
-import MailIcon from '~/assets/MailIcon';
-import LockIcon from '~/assets/LockIcon';
-import WhatsAppIcon from '~/assets/WhatsAppIcon';
-import LineIcon from '~/assets/LineIcon';
 import BookIcon from '~/assets/BookIcon';
-import ImageIcon from '~/assets/ImageIcon';
 import CvIcon from '~/assets/CvIcon';
+import ImageIcon from '~/assets/ImageIcon';
+import LineIcon from '~/assets/LineIcon';
+import LockIcon from '~/assets/LockIcon';
+import MailIcon from '~/assets/MailIcon';
+import UserIcon from '~/assets/UserIcon';
+import WhatsAppIcon from '~/assets/WhatsAppIcon';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import FileInput from '~/components/FileInput';
@@ -85,11 +85,15 @@ const TutorRegister = () => {
 
   return (
     <div className="">
-      <div className='text-4xl font-extrabold text-[#80785C] mt-8 ml-4'>Bear</div>
-      <div className='text-4xl font-extrabold mt-2 ml-4'>With TPB</div>
-      <div className='text-xl font-extrabold text-[#80785C] mt-10 ml-4 '>Register Account</div>
+      <div className="text-4xl font-extrabold text-[#80785C] mt-8 ml-4">
+        Bear
+      </div>
+      <div className="text-4xl font-extrabold mt-2 ml-4">With TPB</div>
+      <div className="text-xl font-extrabold text-[#80785C] mt-10 ml-4 ">
+        Register Account
+      </div>
 
-      <div className='bg-[#FFF7E2] mt-2 mb-8 rounded-2xl px-6 pb-8 '>
+      <div className="bg-[#FFF7E2] mt-2 mb-8 rounded-2xl px-6 pb-8 ">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <Tabs
             activeIndex={1}
@@ -114,9 +118,19 @@ const TutorRegister = () => {
             type="password"
             placeholder="Password"
             autoComplete="new-password"
-            {...register('password', { required, minLength: 8 })}
+            {...register('password', {
+              required,
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters',
+              },
+            })}
           />
-          <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={ErrorRenderer}
+          />
           <Input
             icon={<WhatsAppIcon />}
             type="tel"
@@ -124,8 +138,16 @@ const TutorRegister = () => {
             autoComplete="tel"
             {...register('WANumber', { required })}
           />
-          <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
-          <Input icon={<LineIcon />} placeholder="Line ID" {...register('lineId', { required })} />
+          <ErrorMessage
+            errors={errors}
+            name="WANumber"
+            render={ErrorRenderer}
+          />
+          <Input
+            icon={<LineIcon />}
+            placeholder="Line ID"
+            {...register('lineId', { required })}
+          />
           <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
           <Input
             icon={<BookIcon />}
@@ -133,7 +155,11 @@ const TutorRegister = () => {
             placeholder="Semester"
             {...register('semester', { required, valueAsNumber: true })}
           />
-          <ErrorMessage errors={errors} name="semester" render={ErrorRenderer} />
+          <ErrorMessage
+            errors={errors}
+            name="semester"
+            render={ErrorRenderer}
+          />
           <Input
             icon={<BookIcon />}
             type="number"
@@ -176,8 +202,10 @@ const TutorRegister = () => {
             rules={{ required }}
           />
           <ErrorMessage errors={errors} name="cv" render={ErrorRenderer} />
-          <Button className="mt-6 mx-24" type="submit">REGISTER</Button>
-          <p className='text-center'>
+          <Button className="mt-6 mx-24" type="submit">
+            REGISTER
+          </Button>
+          <p className="text-center">
             Already have an account?{' '}
             <Link href="/auth/login">
               <a className="font-bold text-blue-600">Sign In</a>
@@ -185,7 +213,6 @@ const TutorRegister = () => {
           </p>
         </form>
       </div>
-
     </div>
   );
 };

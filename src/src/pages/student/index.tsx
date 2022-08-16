@@ -43,7 +43,7 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   return (
     <ul className="flex flex-col gap-4">
       {query.data.map((course) => (
-        <CourseInfo key={course.id} course={course} />
+        <CourseInfo key={course.id} course={course} onEnroll={() => {}} />
       ))}
     </ul>
   );

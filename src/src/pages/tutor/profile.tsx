@@ -4,9 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
-import FileInput from '~/components/FileInput';
 import Input from '~/components/Input';
-import Tabs from '~/components/Tabs';
 import { trpc } from '~/utils/trpc';
 import { uploadFile } from '~/utils/uploadFile';
 
@@ -19,7 +17,7 @@ type Inputs = {
   image: FileList;
 };
 
-const StudentProfile = () => {  
+const StudentProfile = () => {
   const {
     register,
     handleSubmit,
@@ -60,18 +58,14 @@ const StudentProfile = () => {
 
   return (
     <div>
-      <div className='text-4xl font-extrabold text-black mt-8 ml-4 text-center'>Profile</div>
+      <div className="text-4xl font-extrabold text-black mt-8 ml-4 text-center">
+        Profile
+      </div>
 
-      <div className='mt-2 mb-8 rounded-2xl px-6 pb-8 '>
+      <div className="mt-2 mb-8 rounded-2xl px-6 pb-8 ">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <Input
-            label="Username"
-            placeholder="hello01"
-          />
-          <Input
-            label="Full Name"
-            placeholder="hello student"
-          />
+          <Input label="Username" placeholder="hello01" />
+          <Input label="Full Name" placeholder="hello student" />
           <Input
             label="Email"
             placeholder="hellostudent01@gmail.com"
@@ -89,7 +83,11 @@ const StudentProfile = () => {
               },
             })}
           />
-          <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={ErrorRenderer}
+          />
           <Input
             label="Fakultas/Jurusan"
             placeholder="STEI-Teknik Informatika"
@@ -100,14 +98,19 @@ const StudentProfile = () => {
             placeholder="08123456789"
             autoComplete="tel"
           />
-          <ErrorMessage errors={errors} name="WANumber" render={ErrorRenderer} />
+          <ErrorMessage
+            errors={errors}
+            name="WANumber"
+            render={ErrorRenderer}
+          />
           <Input label="ID Line" placeholder="helo_student" />
           <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
-          <Button className="mt-6 mx-24" type="submit">SAVE</Button>
+          <Button className="mt-6 mx-24" type="submit">
+            SAVE
+          </Button>
         </form>
       </div>
     </div>
- 
   );
 };
 

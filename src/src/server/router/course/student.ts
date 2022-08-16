@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { createStudentRouter } from '../context';
 
@@ -67,6 +68,52 @@ export const studentRouter = createStudentRouter()
       throw new TRPCError({
         message: 'Course not found',
         code: 'NOT_FOUND',
+      });
+    },
+  })
+  .mutation('editProfile', {
+    input: z.object({
+      name: z.string().optional(),
+      email: z.string().optional(),
+      password: z.string().min(8).optional(),
+      WANumber: z.string().optional(),
+      lineId: z.string().optional(),
+      imageUrl: z.string().optional(),
+    }),
+    async resolve({ ctx, input }) {
+      const updatedUser = await ctx.prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          ...input,
+          password: input.password
+            ? bcrypt.hashSync(input.password, 10)
+            : undefined,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          photoUrl: true,
+        },
+      });
+      console.log(updatedUser);
+      return updatedUser;
+    },
+  })
+  .query('profile', {
+    async resolve({ ctx }) {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          photoUrl: true,
+        },
       });
     },
   });

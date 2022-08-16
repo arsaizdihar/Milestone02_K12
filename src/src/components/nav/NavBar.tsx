@@ -30,6 +30,10 @@ const guestLinks: LinkProps[] = [
 
 const tutorLinks: LinkProps[] = [
   {
+    href: '/tutor/profile',
+    text: 'PROFILE',
+  },
+  {
     href: '/tutor',
     text: 'HOME',
   },
@@ -40,6 +44,10 @@ const tutorLinks: LinkProps[] = [
 ];
 
 const studentLinks: LinkProps[] = [
+  {
+    href: '/student/profile',
+    text: 'PROFILE',
+  },
   {
     href: '/student',
     text: 'HOME',

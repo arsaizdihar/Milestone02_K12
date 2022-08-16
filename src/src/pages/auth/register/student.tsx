@@ -127,7 +127,7 @@ const StudentRegister = () => {
           />
           <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
           <Button className="mt-6 mx-24" type="submit">REGISTER</Button>
-          <p>
+          <p className='text-center'>
             Already have an account?{' '}
             <Link href="/auth/login">
               <a className="font-bold text-blue-600">Sign In</a>

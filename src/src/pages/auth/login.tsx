@@ -47,7 +47,7 @@ const LoginPage = () => {
     <div className="container mx-auto mt-5 bg-[#FFF7E2]">
       <div className="border rounded-lg shadow-lg p-10">
         <div
-          className="max-w-lg my-10 border border-slate-200 
+          className="max-w-lg my-10 bg-[#80785C] border border-slate-200 
           rounded-xl mx-auto p-5 shadow-md font-extrabold"
         >
           <h1 className="font-extrabold text-center text-lg mb">

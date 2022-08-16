@@ -44,35 +44,41 @@ const LoginPage = () => {
   const required = 'This field is required';
 
   return (
-    <div className="">
-      <div
-        className="max-w-lg my-10 border border-slate-200 
-        rounded-xl mx-auto p-5 shadow-md font-serif"
-      >
-        <h1 className="font-bold text-center text-lg mb">Welcome Back</h1>
+    <div className="container mx-auto">
+      <div className="border rounded-lg shadow-lg p-10">
+        <div
+          className="max-w-lg my-10 border border-slate-200 
+          rounded-xl mx-auto p-5 shadow-md font-serif"
+        >
+          <h1 className="font-bold text-center text-lg mb">Welcome Back</h1>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
+          <Input
+            type="email"
+            placeholder="Email"
+            {...register('email', { required })}
+          />
+          <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
+          <Input
+            type="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            {...register('password', { required })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={ErrorRenderer}
+          />
+          <Button type="submit">LOGIN</Button>
+          <p>
+            Don't have an account?{' '}
+            <Link href="/auth/register/student">
+              <a className="font-bold text-blue-600">Sign Up</a>
+            </Link>
+          </p>
+        </form>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register('email', { required })}
-        />
-        <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
-        <Input
-          type="password"
-          placeholder="Password"
-          autoComplete="current-password"
-          {...register('password', { required })}
-        />
-        <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
-        <Button type="submit">LOGIN</Button>
-        <p>
-          Don't have an account?{' '}
-          <Link href="/auth/register/student">
-            <a className="font-bold text-blue-600">Sign Up</a>
-          </Link>
-        </p>
-      </form>
     </div>
   );
 };

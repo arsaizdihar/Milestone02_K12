@@ -44,7 +44,7 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   return (
     <ul>
       {query.data.map((course) => (
-        <CourseInfo key={course.id} course={course} onEditClick={() => {}} />
+        <CourseInfo key={course.id} course={course} />
       ))}
     </ul>
   );

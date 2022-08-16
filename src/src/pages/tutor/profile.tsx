@@ -5,6 +5,7 @@ import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import Input from '~/components/Input';
 import TextArea from '~/components/TextArea';
+import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
 type Inputs = {
@@ -25,6 +26,7 @@ const StudentProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onBlur' });
+  useRedirect('TUTOR');
   const editProfile = trpc.useMutation('tutor.editProfile');
   const profile = trpc.useQuery(['tutor.profile']);
   const queryClient = trpc.useContext();

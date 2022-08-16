@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
 import Input from '~/components/Input';
+import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
 type Inputs = {
@@ -23,6 +24,7 @@ const StudentProfile = () => {
   const editProfile = trpc.useMutation('student.editProfile');
   const profile = trpc.useQuery(['student.profile']);
   const queryClient = trpc.useContext();
+  useRedirect('STUDENT');
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const promise = editProfile

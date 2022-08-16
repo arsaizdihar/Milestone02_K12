@@ -59,6 +59,7 @@ const LoginPage = () => {
             type="email"
             placeholder="Email"
             {...register('email', { required })}
+            className="mt-3"
           />
           <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
           <Input
@@ -66,6 +67,7 @@ const LoginPage = () => {
             placeholder="Password"
             autoComplete="current-password"
             {...register('password', { required })}
+            className="mt-3"
           />
           <ErrorMessage
             errors={errors}

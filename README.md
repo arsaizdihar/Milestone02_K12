@@ -34,6 +34,6 @@ Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khus
  
  6.  Lalu, komponen terakhir di aplikasi ini adalah side navbar yang bisa diakses oleh tutor dan students yang di dalamnya disajikan komponen profile, home, course, tutors dan log out serta profile. 
  
- 7.   Terakhir, apabila ingin mengedit profile dapat dilakukan dengan klik profile di side navbar dan akan masuk ke page profile di sini kalian bisa mengedit dan menambahkan info terkait akun kalian dan juga bisa mengganti foto profile sesuka hati dan jangan lupa untuk klik save apabila sudah selesai mengedit. Setelah selesai, menambahkan info dan explore di dalam aplikasi bear with tpb ini kalian sudah siap mengikuti tutor yang telah tersedia di Bear With TPB. Selamat belajar! 
+ 7.   Terakhir, apabila ingin mengedit profile dapat dilakukan dengan klik profile di side navbar dan akan masuk ke page profile di sini kalian bisa mengedit dan menambahkan info terkait akun kalian dan juga bisa mengganti foto profile sesuka hati dan jangan lupa untuk klik save apabila sudah selesai mengedit. Setelah selesai, menambahkan info dan explore aplikasi bear with tpb ini kalian sudah siap mengikuti tutor yang telah tersedia di Bear With TPB. Selamat belajar! 
 
  

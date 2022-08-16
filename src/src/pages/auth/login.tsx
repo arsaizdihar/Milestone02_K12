@@ -45,13 +45,13 @@ const LoginPage = () => {
 
   return (
     <div className="container mx-auto mt-5 bg-[#FFF7E2]">
-      <div className="border rounded-lg shadow-lg p-10">
+      <div className="border rounded-lg shadow-lg p-5">
         <div
-          className="max-w-lg my-10 bg-[#80785C] border border-slate-200 
-          rounded-xl mx-auto p-5 shadow-md font-extrabold"
+          className="max-w-lg my-10 bg-[#FFF7E2] 
+          rounded-xl mx-auto p-1  font-extrabold"
         >
-          <h1 className="font-extrabold text-center text-lg mb text-white">
-            Welcome Back
+          <h1 className="font-extrabold text-center text-lg mb text-[#80785C]">
+            WELCOME BACK !
           </h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">

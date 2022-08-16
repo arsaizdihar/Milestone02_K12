@@ -6,24 +6,26 @@ import Title from '~/components/Title';
 import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
+import TimeSelect from '~/components/TimeSelect';
+import Tabs from '~/components/Tabs';
 
 const StudentHomePage = () => {
   const logout = useLogout();
   const [search, setSearch] = useState('');
+  const [selectedTime, setSelectedTime] = useState('upcoming');
   useRedirect('STUDENT');
 
   return (
     <div className="flex flex-col gap-1">
+      <Tabs
+      activeIndex={1}
+      tab1={{ label: 'Your Courses', href: '/student/courses' }}
+      tab2={{ label: 'Available', href: '/student' }} 
+      />
       <Title>ALL COURSES</Title>
       <SearchField onSearch={setSearch} />
-      <div>
-        <h2 className="text-lg font-bold">Upcoming</h2>
-        <Courses search={search} />
-      </div>
-      <div>
-        <h2 className="text-lg font-bold">Past</h2>
-        <Courses past search={search} />
-      </div>
+      <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
+      <Courses search={search} past={selectedTime === 'past'} />
       <Button href="/student/courses" className="flex justify-center">
         Your Courses
       </Button>

@@ -21,3 +21,12 @@ Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khus
 | Hidayatullah Wildan Ghaly B. | 16521502 / 13521015 | Backend |
 | Wan Aufa Azis | 16521525 / 18221001 | Frontend |
 
+## Cara menjankan web 
+ 1. Buka aplikasi website Bear With TPB di link berikut bearwithtpb.vercel.app 
+ 
+ 2. Lakukan **log in** akun sesuai dengan kebutuhan apabila anda merupakan seorang students maka pilih log in student. Apabila anda seorang tutor pilih log in tutor. Apabila belum pernah membuat akun silakan pilih sign up
+ 
+ 3. Seteleh berhasil log in, anda akan berada di page **course**.  Di sini tutor dan students dapat melihat semua courses yang tersedia di platform pembelajaran bear with tpb. Students dapat melihat semua tutor yang ada dan mendaftar di sesi tutor yang diinginkan. 
+ 
+ 4.  Lalu, di Page ini tutor dan students dapat switch page ke halaman sesi tutor yang dimiliki atau yang sudah terdaftar yakni, di **page your courses**
+ 

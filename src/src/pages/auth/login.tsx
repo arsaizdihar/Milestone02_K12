@@ -44,29 +44,47 @@ const LoginPage = () => {
   const required = 'This field is required';
 
   return (
-    <div className="">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register('email', { required })}
-        />
-        <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
-        <Input
-          type="password"
-          placeholder="Password"
-          autoComplete="current-password"
-          {...register('password', { required })}
-        />
-        <ErrorMessage errors={errors} name="password" render={ErrorRenderer} />
-        <Button type="submit">LOGIN</Button>
-        <p>
-          Don't have an account?{' '}
-          <Link href="/auth/register/student">
-            <a className="font-bold text-blue-600">Sign Up</a>
-          </Link>
-        </p>
-      </form>
+    <div className="container mx-auto mt-5 bg-[#FFF7E2]">
+      <div className="border rounded-lg shadow-lg p-5">
+        <div
+          className="max-w-lg my-10 bg-[#FFF7E2] 
+          rounded-xl mx-auto p-1  font-extrabold"
+        >
+          <h1 className="font-extrabold text-center text-2xl mb text-[#80785C]">
+            WELCOME BACK !
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
+          <Input
+            type="email"
+            placeholder="Email"
+            {...register('email', { required })}
+            className="mt-3"
+          />
+          <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
+          <Input
+            type="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            {...register('password', { required })}
+            className="mt-3"
+          />
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={ErrorRenderer}
+          />
+          <Button className="mt-3" type="submit">
+            LOGIN
+          </Button>
+          <p>
+            Don't have an account?{' '}
+            <Link href="/auth/register/student">
+              <a className="font-bold text-blue-600">Sign Up</a>
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

@@ -26,7 +26,7 @@ model User {
     CVUrl          String?
     IPK            Float?
     description    String?         @db.Text
-    photoUrl       String?
+    photoUrl       String
     studentCourses Participation[]
 }
 

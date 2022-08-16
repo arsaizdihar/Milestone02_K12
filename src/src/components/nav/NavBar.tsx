@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLogout } from '~/hooks/useLogout';
 import { useOutsideClick } from '~/hooks/useOutsideClick';
 import useSession from '~/hooks/useSession';
@@ -70,6 +70,10 @@ const NavBar = () => {
       ? tutorLinks
       : studentLinks
     : guestLinks;
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [router.asPath]);
 
   return (
     <nav className="fixed inset-x-0 top-0 bg-primary-cream z-40">

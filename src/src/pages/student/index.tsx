@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import Button from '~/components/Button';
 import SearchField from '~/components/SearchField';
 import CourseInfo from '~/components/student/CourseInfo';
@@ -41,11 +42,33 @@ interface CoursesProps {
 
 const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   const query = trpc.useQuery(['allCourses', { past, search }]);
+  const enroll = trpc.useMutation('student.takeCourse');
   if (!query.data) return <>Loading...</>;
   return (
     <ul className="flex flex-col gap-4">
       {query.data.map((course) => (
-        <CourseInfo key={course.id} course={course} onEnroll={() => {}} />
+        <CourseInfo
+          key={course.id}
+          course={course}
+          onEnroll={
+            past
+              ? undefined
+              : () => {
+                  const promise = enroll.mutateAsync({ courseId: course.id });
+                  promise.catch(console.log);
+                  toast.promise(promise, {
+                    loading: 'Enrolling...',
+                    success: 'Enroll success.',
+                    error: (error) => {
+                      if (error.shape?.message === 'already-taken') {
+                        return "You've already enrolled in this course";
+                      }
+                      return 'Enroll failed';
+                    },
+                  });
+                }
+          }
+        />
       ))}
     </ul>
   );

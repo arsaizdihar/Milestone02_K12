@@ -49,7 +49,16 @@ const MenuButton: React.FC<MenuButtonProps> = ({ isOpen, onClick }) => {
   const unitWidth = (unitHeight * (width as number)) / (height as number);
 
   return (
-    <button onClick={onClick}>
+    <motion.button
+      onClick={onClick}
+      className="z-50"
+      variants={{
+        closed: { x: 0, transition: { delay: 0.25 } },
+        opened: { x: '220px' },
+      }}
+      initial="closed"
+      animate={isOpen ? 'opened' : 'closed'}
+    >
       <motion.svg
         viewBox={`0 0 ${unitWidth} ${unitHeight}`}
         overflow="visible"
@@ -82,7 +91,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ isOpen, onClick }) => {
           {...lineProps}
         />
       </motion.svg>
-    </button>
+    </motion.button>
   );
 };
 

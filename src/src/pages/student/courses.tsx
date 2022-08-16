@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import SearchField from '~/components/SearchField';
+import CourseInfo from '~/components/student/CourseInfo';
+import Tabs from '~/components/Tabs';
 import TimeSelect from '~/components/TimeSelect';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
-import Tabs from '~/components/Tabs';
-import Title from '~/components/Title';
 
-const TutorCoursesPage = () => { 
+const TutorCoursesPage = () => {
   const [search, setSearch] = useState('');
   const [selectedTime, setSelectedTime] = useState('upcoming');
   useRedirect('STUDENT');
@@ -15,14 +15,12 @@ const TutorCoursesPage = () => {
       <Tabs
         activeIndex={0}
         tab1={{ label: 'Your Courses', href: '/student/courses' }}
-        tab2={{ label: 'Available', href: '/student' }} 
-        />
-      <Title>YOUR COURSES</Title>
+        tab2={{ label: 'Available', href: '/student' }}
+      />
       <SearchField onSearch={setSearch} />
       <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
       <Courses search={search} past={selectedTime === 'past'} />
-    <div>
-      </div>
+      <div></div>
     </div>
   );
 };
@@ -36,11 +34,9 @@ const Courses: React.FC<CoursesProps> = ({ past = false, search }) => {
   const query = trpc.useQuery(['student.myCourses', { past, search }]);
   if (!query.data) return <>Loading...</>;
   return (
-    <ul>
+    <ul className="flex flex-col gap-4">
       {query.data.map((course) => (
-        <li key={course.id}>
-          {course.subject} - {course.materi}
-        </li>
+        <CourseInfo key={course.id} course={course} />
       ))}
     </ul>
   );

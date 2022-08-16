@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import Button from '~/components/Button';
 import SearchField from '~/components/SearchField';
 import Tabs from '~/components/Tabs';
+import TimeSelect from '~/components/TimeSelect';
 import CourseInfo from '~/components/tutor/CourseInfo';
-import { useLogout } from '~/hooks/useLogout';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 
 const TutorHomePage = () => {
-  const logout = useLogout();
   const [search, setSearch] = useState('');
+  const [selectedTime, setSelectedTime] = useState('upcoming');
   useRedirect('TUTOR');
 
   return (
@@ -20,18 +19,8 @@ const TutorHomePage = () => {
         tab2={{ label: 'All Session', href: '/tutor' }}
       />
       <SearchField onSearch={setSearch} />
-      <div>
-        <h2 className="text-lg font-bold">Upcoming</h2>
-        <Courses search={search} />
-      </div>
-      <div>
-        <h2 className="text-lg font-bold">Past</h2>
-        <Courses past search={search} />
-      </div>
-      <Button href="/tutor/courses" className="flex justify-center">
-        Your Courses
-      </Button>
-      <Button onClick={logout}>Sign out</Button>
+      <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
+      <Courses search={search} past={selectedTime === 'past'} />
     </div>
   );
 };

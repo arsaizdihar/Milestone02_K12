@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { createStudentRouter } from '../context';
 
@@ -15,6 +16,9 @@ export const studentRouter = createStudentRouter()
             { materi: { contains: input.search, mode: 'insensitive' } },
             { subject: { contains: input.search, mode: 'insensitive' } },
           ],
+        },
+        include: {
+          _count: { select: { participants: true } },
         },
       });
     },
@@ -53,6 +57,21 @@ export const studentRouter = createStudentRouter()
       });
       if (course) {
         if (course.slot === 0 || course.slot != course._count.participants) {
+          const alreadyTaken = await ctx.prisma.course.findFirst({
+            where: {
+              participants: {
+                some: { userId: ctx.userId },
+              },
+              id: course.id,
+            },
+            select: { id: true },
+          });
+          if (alreadyTaken) {
+            throw new TRPCError({
+              code: 'BAD_REQUEST',
+              cause: 'already-taken',
+            });
+          }
           const newParticipant = await ctx.prisma.participation.create({
             data: { userId: ctx.userId, courseId: input.courseId },
           });
@@ -67,6 +86,51 @@ export const studentRouter = createStudentRouter()
       throw new TRPCError({
         message: 'Course not found',
         code: 'NOT_FOUND',
+      });
+    },
+  })
+  .mutation('editProfile', {
+    input: z.object({
+      name: z.string().optional(),
+      email: z.string().optional(),
+      password: z.string().min(8).optional(),
+      WANumber: z.string().optional(),
+      lineId: z.string().optional(),
+      imageUrl: z.string().optional(),
+    }),
+    async resolve({ ctx, input }) {
+      const updatedUser = await ctx.prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          ...input,
+          password: input.password
+            ? bcrypt.hashSync(input.password, 10)
+            : undefined,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          photoUrl: true,
+        },
+      });
+      return updatedUser;
+    },
+  })
+  .query('profile', {
+    async resolve({ ctx }) {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          photoUrl: true,
+        },
       });
     },
   });

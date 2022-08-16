@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { createTutorRouter } from '../context';
 
@@ -50,6 +51,82 @@ export const tutorRouter = createTutorRouter()
             { materi: { contains: input.search, mode: 'insensitive' } },
             { subject: { contains: input.search, mode: 'insensitive' } },
           ],
+        },
+        include: {
+          _count: { select: { participants: true } },
+        },
+      });
+    },
+  })
+  .mutation('deleteCourse', {
+    input: z.object({ courseId: z.string() }),
+    async resolve({ ctx, input }) {
+      const course = await ctx.prisma.course.findFirst({
+        where: { id: input.courseId, userId: ctx.userId },
+        include: { _count: { select: { participants: true } } },
+      });
+      if (!course) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+      if (course._count.participants > 0) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'This course already has participants',
+        });
+      }
+      const deletedCourse = await ctx.prisma.course.delete({
+        where: { id: input.courseId },
+      });
+      return deletedCourse;
+    },
+  })
+  .mutation('editProfile', {
+    input: z.object({
+      name: z.string().optional(),
+      email: z.string().optional(),
+      password: z.string().min(8).optional(),
+      WANumber: z.string().optional(),
+      lineId: z.string().optional(),
+      imageUrl: z.string().optional(),
+    }),
+    async resolve({ ctx, input }) {
+      const updatedUser = await ctx.prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          ...input,
+          password: input.password
+            ? bcrypt.hashSync(input.password, 10)
+            : undefined,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          semester: true,
+          IPK: true,
+          description: true,
+          major: true,
+        },
+      });
+      return updatedUser;
+    },
+  })
+  .query('profile', {
+    async resolve({ ctx }) {
+      return await ctx.prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          WANumber: true,
+          lineId: true,
+          semester: true,
+          IPK: true,
+          description: true,
+          major: true,
         },
       });
     },

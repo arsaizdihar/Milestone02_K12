@@ -23,8 +23,11 @@ const TutorCoursesPage = () => {
       <SearchField onSearch={setSearch} />
       <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
       <Courses search={search} past={selectedTime === 'past'} />
-      <Button onClick={() => router.push('/tutor/add-course')}>
-        Add new schedule
+      <Button
+        onClick={() => router.push('/tutor/add-course')}
+        className="mt-2 font-extrabold"
+      >
+        Add Session +
       </Button>
     </div>
   );

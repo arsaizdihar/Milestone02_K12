@@ -1,24 +1,12 @@
 import { ErrorMessage } from '@hookform/error-message';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import BookIcon from '~/assets/BookIcon';
-import CvIcon from '~/assets/CvIcon';
-import ImageIcon from '~/assets/ImageIcon';
-import LineIcon from '~/assets/LineIcon';
-import LockIcon from '~/assets/LockIcon';
-import MailIcon from '~/assets/MailIcon';
-import UserIcon from '~/assets/UserIcon';
-import WhatsAppIcon from '~/assets/WhatsAppIcon';
 import Button from '~/components/Button';
 import ErrorRenderer from '~/components/ErrorRenderer';
-import FileInput from '~/components/FileInput';
 import Input from '~/components/Input';
-import Tabs from '~/components/Tabs';
 import TextArea from '~/components/TextArea';
+import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
-import { uploadFile } from '~/utils/uploadFile';
 
 type Inputs = {
   name: string;
@@ -30,96 +18,76 @@ type Inputs = {
   major: string;
   IPK: number;
   description: string;
-  image: FileList;
-  cv: FileList;
 };
 
-const TutorRegister = () => {
+const StudentProfile = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm<Inputs>({ mode: 'onBlur' });
-  const signup = trpc.useMutation('auth.registerTutor');
-  const router = useRouter();
+  useRedirect('TUTOR');
+  const editProfile = trpc.useMutation('tutor.editProfile');
+  const profile = trpc.useQuery(['tutor.profile']);
   const queryClient = trpc.useContext();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ image, cv, ...data }) => {
-    const imageFile = image[0];
-    const cvFile = cv[0];
-
-    if (!imageFile || !cvFile) return;
-    const promise = new Promise<void>(async (resolve, reject) => {
-      try {
-        const [photoRes, cvRes] = await Promise.all([
-          uploadFile(imageFile),
-          uploadFile(cvFile),
-        ]);
-        const photoUrl = photoRes.Location;
-        const CVUrl = cvRes.Location;
-        signup.mutateAsync({ ...data, photoUrl, CVUrl }).then((res) => {
-          resolve();
-          queryClient.setQueryData(['auth.currentUser'], res);
-          router.push('/tutor');
-        });
-      } catch (error) {
-        reject(error);
-      }
-    });
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const promise = editProfile
+      .mutateAsync({
+        ...data,
+        password: data.password ? data.password : undefined,
+      })
+      .then((res) => {
+        queryClient.refetchQueries(['auth.currentUser']);
+        queryClient.setQueryData(['tutor.profile'], res);
+      });
 
     toast.promise(
       promise,
       {
-        loading: 'Registering...',
-        success: 'Register success. Please login.',
-        error: 'Register failed',
+        loading: 'Updating profile...',
+        success: 'Update success.',
+        error: 'Update failed',
       },
-      { id: 'register' },
+      { id: 'edit-profile' },
     );
-
-    promise.catch(console.log);
   };
+
+  if (!profile.data) {
+    return <div>Loading...</div>;
+  }
 
   const required = 'This field is required';
 
   return (
-    <div className="">
-      <div className="text-4xl font-extrabold text-[#80785C] mt-8 ml-4">
-        Bear
-      </div>
-      <div className="text-4xl font-extrabold mt-2 ml-4">With TPB</div>
-      <div className="text-xl font-extrabold text-[#80785C] mt-10 ml-4 ">
-        Register Account
+    <div>
+      <div className="text-4xl font-extrabold text-black mt-8 ml-4 text-center">
+        Profile
       </div>
 
-      <div className="bg-[#FFF7E2] mt-2 mb-8 rounded-2xl px-6 pb-8 ">
+      <div className="mt-2 mb-8 rounded-2xl px-6 pb-8 ">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <Tabs
-            activeIndex={1}
-            tab1={{ label: 'Student', href: '/auth/register/student' }}
-            tab2={{ label: 'Tutor', href: '/auth/register/tutor' }}
-          />
           <Input
-            icon={<UserIcon />}
             placeholder="Name"
+            label="Name"
+            defaultValue={profile.data.name}
             {...register('name', { required })}
           />
           <ErrorMessage errors={errors} name="name" render={ErrorRenderer} />
           <Input
-            icon={<MailIcon />}
             placeholder="Email"
+            label="Email"
             type="email"
+            defaultValue={profile.data.email}
             {...register('email', { required })}
           />
           <ErrorMessage errors={errors} name="email" render={ErrorRenderer} />
           <Input
-            icon={<LockIcon />}
             type="password"
             placeholder="Password"
+            label="Password"
             autoComplete="new-password"
             {...register('password', {
-              required,
               minLength: {
                 value: 8,
                 message: 'Password must be at least 8 characters',
@@ -132,10 +100,11 @@ const TutorRegister = () => {
             render={ErrorRenderer}
           />
           <Input
-            icon={<WhatsAppIcon />}
             type="tel"
             placeholder="WA Number"
+            label="WA Number"
             autoComplete="tel"
+            defaultValue={profile.data.WANumber}
             {...register('WANumber', { required })}
           />
           <ErrorMessage
@@ -144,15 +113,17 @@ const TutorRegister = () => {
             render={ErrorRenderer}
           />
           <Input
-            icon={<LineIcon />}
             placeholder="Line ID"
+            label="Line ID"
+            defaultValue={profile.data.lineId}
             {...register('lineId', { required })}
           />
           <ErrorMessage errors={errors} name="lineId" render={ErrorRenderer} />
           <Input
-            icon={<BookIcon />}
             type="number"
             placeholder="Semester"
+            label="Semester"
+            defaultValue={profile.data.semester ?? undefined}
             {...register('semester', { required, valueAsNumber: true })}
           />
           <ErrorMessage
@@ -161,22 +132,26 @@ const TutorRegister = () => {
             render={ErrorRenderer}
           />
           <Input
-            icon={<BookIcon />}
             type="number"
             placeholder="IPK TPB"
+            label="IPK TPB"
+            defaultValue={profile.data.IPK ?? undefined}
             {...register('IPK', { required, valueAsNumber: true })}
           />
           <ErrorMessage errors={errors} name="IPK" render={ErrorRenderer} />
           <Input
-            icon={<BookIcon />}
             type="text"
             placeholder="Major"
+            label="Major"
+            defaultValue={profile.data.major!}
             {...register('major', { required })}
           />
           <ErrorMessage errors={errors} name="major" render={ErrorRenderer} />
           <TextArea
             rows={3}
             placeholder="About yourself"
+            label="About yourself"
+            defaultValue={profile.data.description!}
             {...register('description', { required })}
           />
           <ErrorMessage
@@ -184,37 +159,13 @@ const TutorRegister = () => {
             name="description"
             render={ErrorRenderer}
           />
-          <FileInput
-            icon={<ImageIcon />}
-            placeholder="Upload Photo"
-            accept="image/*"
-            name="image"
-            control={control as any}
-            rules={{ required }}
-          />
-          <ErrorMessage errors={errors} name="image" render={ErrorRenderer} />
-          <FileInput
-            icon={<CvIcon />}
-            placeholder="Upload CV"
-            accept="application/pdf"
-            name="cv"
-            control={control as any}
-            rules={{ required }}
-          />
-          <ErrorMessage errors={errors} name="cv" render={ErrorRenderer} />
           <Button className="mt-6 mx-24" type="submit">
-            REGISTER
+            SAVE
           </Button>
-          <p className="text-center">
-            Already have an account?{' '}
-            <Link href="/auth/login">
-              <a className="font-bold text-blue-600">Sign In</a>
-            </Link>
-          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default TutorRegister;
+export default StudentProfile;

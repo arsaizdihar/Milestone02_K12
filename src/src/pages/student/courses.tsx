@@ -18,7 +18,6 @@ const TutorCoursesPage = () => {
         tab1={{ label: 'Your Courses', href: '/student/courses' }}
         tab2={{ label: 'Available', href: '/student' }}
       />
-      <Title>YOUR COURSES</Title> {/*Ini masih perlu gak?*/}
       <SearchField onSearch={setSearch} />
       <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
       <Courses search={search} past={selectedTime === 'past'} />

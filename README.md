@@ -22,7 +22,7 @@ Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khus
 | Wan Aufa Azis | 16521525 / 18221001 | Frontend |
 
 ## Cara menjankan web 
- 1. Buka aplikasi website Bear With TPB di link berikut bearwithtpb.vercel.app 
+ 1. Buka aplikasi website Bear With TPB di link berikut [bearwithtpb.vercel.app](https://bearwithtpb.vercel.app) 
  
  2. Lakukan **log in** akun sesuai dengan kebutuhan apabila anda merupakan seorang students maka pilih log in student. Apabila anda seorang tutor pilih log in tutor. Apabila belum pernah membuat akun silakan pilih sign up
  

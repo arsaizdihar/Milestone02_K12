@@ -54,6 +54,11 @@ export const tutorRouter = createTutorRouter()
         },
         include: {
           _count: { select: { participants: true } },
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
     },

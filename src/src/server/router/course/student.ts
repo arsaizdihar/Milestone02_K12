@@ -19,6 +19,11 @@ export const studentRouter = createStudentRouter()
         },
         include: {
           _count: { select: { participants: true } },
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
     },

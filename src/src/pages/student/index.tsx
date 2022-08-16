@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import Button from '~/components/Button';
 import SearchField from '~/components/SearchField';
 import CourseInfo from '~/components/student/CourseInfo';
-import Title from '~/components/Title';
-import { useLogout } from '~/hooks/useLogout';
+import Tabs from '~/components/Tabs';
+import TimeSelect from '~/components/TimeSelect';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
-import TimeSelect from '~/components/TimeSelect';
-import Tabs from '~/components/Tabs';
 
 const StudentHomePage = () => {
-  const logout = useLogout();
   const [search, setSearch] = useState('');
   const [selectedTime, setSelectedTime] = useState('upcoming');
   useRedirect('STUDENT');
@@ -19,18 +15,13 @@ const StudentHomePage = () => {
   return (
     <div className="flex flex-col gap-1">
       <Tabs
-      activeIndex={1}
-      tab1={{ label: 'Your Courses', href: '/student/courses' }}
-      tab2={{ label: 'Available', href: '/student' }} 
+        activeIndex={1}
+        tab1={{ label: 'Your Courses', href: '/student/courses' }}
+        tab2={{ label: 'Available', href: '/student' }}
       />
-      <Title>ALL COURSES</Title>
       <SearchField onSearch={setSearch} />
       <TimeSelect value={selectedTime as any} onChange={setSelectedTime} />
       <Courses search={search} past={selectedTime === 'past'} />
-      <Button href="/student/courses" className="flex justify-center">
-        Your Courses
-      </Button>
-      <Button onClick={logout}>Sign out</Button>
     </div>
   );
 };

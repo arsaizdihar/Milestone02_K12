@@ -22,6 +22,7 @@ export const studentRouter = createStudentRouter()
           user: {
             select: {
               name: true,
+              photoUrl: true,
             },
           },
         },

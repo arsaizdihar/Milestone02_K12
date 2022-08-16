@@ -18,6 +18,7 @@ export const tutorAndStudentRouter = createAuthRouter().query('allCourses', {
         user: {
           select: {
             name: true,
+            photoUrl: true,
           },
         },
       },

@@ -21,7 +21,7 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onEnroll }) => {
       <h3 className="font-extrabold text-xl mb-3 mt-4">{course.user.name}</h3>
       <div className="rounded-lg p-2 flex border-2 border-secondary-brown gap-3 items-center relative">
         <Image
-          src={'/static/user.png'}
+          src={course.user.photoUrl}
           width={125}
           height={125}
           className="flex-shrink-0 rounded-md object-center bg-white"

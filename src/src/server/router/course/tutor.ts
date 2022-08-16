@@ -57,6 +57,7 @@ export const tutorRouter = createTutorRouter()
           user: {
             select: {
               name: true,
+              photoUrl: true,
             },
           },
         },

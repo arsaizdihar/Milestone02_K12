@@ -17,7 +17,7 @@ Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khus
 | Riandra Diva Auzan  | 16521021 / 18221129 | Frontend |
 | Nigel Sahl | 16521431 / 13521043 | Frontend |
 | Rahman Satya  | 16521437 / 18221117 | Backend |
-| Victoria Angelique | 16521460 / 18221153 | UI/UX, readme |
+| Victoria Angelique | 16521460 / 18221153 | PJ UI/UX, readme |
 | Hidayatullah Wildan Ghaly B. | 16521502 / 13521015 | Backend |
 | Wan Aufa Azis | 16521525 / 18221001 | Frontend |
 

@@ -50,7 +50,7 @@ const LoginPage = () => {
           className="max-w-lg my-10 bg-[#80785C] border border-slate-200 
           rounded-xl mx-auto p-5 shadow-md font-extrabold"
         >
-          <h1 className="font-extrabold text-center text-lg mb">
+          <h1 className="font-extrabold bg-white text-center text-lg mb">
             Welcome Back
           </h1>
         </div>

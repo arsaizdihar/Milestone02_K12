@@ -1,10 +1,10 @@
-import { Course } from '@prisma/client';
 import dayjs from 'dayjs';
 import React from 'react';
 import { toRupiah } from '~/utils/toRupiah';
+import { inferQueryOutput } from '~/utils/trpc';
 
 interface CourseInfoProps {
-  course: Course;
+  course: inferQueryOutput<'allCourses'>[number];
   onEditClick?: () => void;
 }
 
@@ -62,10 +62,12 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onEditClick }) => {
                 })}
               </td>
             </tr>
-            <tr>
-              <td>Kuota</td>
-              <td>: {course.slot}</td>
-            </tr>
+            {course.slot !== 0 && (
+              <tr>
+                <td>Kuota</td>
+                <td>: {course.slot}</td>
+              </tr>
+            )}
             <tr>
               <td>Price</td>
               <td>: {course.price ? toRupiah(course.price) : 'FREE'}</td>

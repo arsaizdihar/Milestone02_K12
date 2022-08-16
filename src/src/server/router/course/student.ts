@@ -17,6 +17,9 @@ export const studentRouter = createStudentRouter()
             { subject: { contains: input.search, mode: 'insensitive' } },
           ],
         },
+        include: {
+          _count: { select: { participants: true } },
+        },
       });
     },
   })
@@ -54,6 +57,21 @@ export const studentRouter = createStudentRouter()
       });
       if (course) {
         if (course.slot === 0 || course.slot != course._count.participants) {
+          const alreadyTaken = await ctx.prisma.course.findFirst({
+            where: {
+              participants: {
+                some: { userId: ctx.userId },
+              },
+              id: course.id,
+            },
+            select: { id: true },
+          });
+          if (alreadyTaken) {
+            throw new TRPCError({
+              code: 'BAD_REQUEST',
+              cause: 'already-taken',
+            });
+          }
           const newParticipant = await ctx.prisma.participation.create({
             data: { userId: ctx.userId, courseId: input.courseId },
           });
@@ -98,7 +116,6 @@ export const studentRouter = createStudentRouter()
           photoUrl: true,
         },
       });
-      console.log(updatedUser);
       return updatedUser;
     },
   })

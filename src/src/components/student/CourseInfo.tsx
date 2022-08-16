@@ -1,12 +1,12 @@
-import type { Course } from '@prisma/client';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import React from 'react';
 import { toRupiah } from '~/utils/toRupiah';
+import { inferQueryOutput } from '~/utils/trpc';
 import Button from '../Button';
 
 interface CourseInfoProps {
-  course: Course;
+  course: inferQueryOutput<'allCourses'>[number];
   onEnroll?: () => void;
 }
 
@@ -40,10 +40,14 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onEnroll }) => {
                   {end && end.format(' - HH.mm')} WIB
                 </td>
               </tr>
-              <tr>
-                <td>Kuota</td>
-                <td>: {course.slot}</td>
-              </tr>
+              {course.slot !== 0 && (
+                <tr>
+                  <td>Kuota</td>
+                  <td>
+                    : {course._count.participants}/{course.slot}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <td>Price</td>
                 <td>: {course.price ? toRupiah(course.price) : 'FREE'}</td>

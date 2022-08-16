@@ -13,6 +13,9 @@ export const tutorAndStudentRouter = createAuthRouter().query('allCourses', {
           { subject: { contains: input.search, mode: 'insensitive' } },
         ],
       },
+      include: {
+        _count: { select: { participants: true } },
+      },
     });
   },
 });

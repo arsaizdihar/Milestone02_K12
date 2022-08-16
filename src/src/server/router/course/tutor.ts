@@ -52,6 +52,9 @@ export const tutorRouter = createTutorRouter()
             { subject: { contains: input.search, mode: 'insensitive' } },
           ],
         },
+        include: {
+          _count: { select: { participants: true } },
+        },
       });
     },
   })

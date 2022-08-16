@@ -67,13 +67,14 @@ const LoginPage = () => {
             placeholder="Password"
             autoComplete="current-password"
             {...register('password', { required })}
+            className="mt-3"
           />
           <ErrorMessage
             errors={errors}
             name="password"
             render={ErrorRenderer}
           />
-          <Button className="mt-2" type="submit">
+          <Button className="mt-3" type="submit">
             LOGIN
           </Button>
           <p>

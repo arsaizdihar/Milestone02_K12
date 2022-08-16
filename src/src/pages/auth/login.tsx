@@ -44,7 +44,7 @@ const LoginPage = () => {
   const required = 'This field is required';
 
   return (
-    <div className="container mx-auto mt-5 bg-FFF7E2">
+    <div className="container mx-auto mt-5 bg#FFF7E2">
       <div className="border rounded-lg shadow-lg p-10">
         <div
           className="max-w-lg my-10 border border-slate-200 

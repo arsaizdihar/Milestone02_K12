@@ -18,7 +18,7 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onEnroll }) => {
     : null;
   return (
     <li>
-      <h3 className="font-extrabold text-xl mb-3 mt-4">Ini nama tutor</h3>
+      <h3 className="font-extrabold text-xl mb-3 mt-4">{course.user.name}</h3>
       <div className="rounded-lg p-2 flex border-2 border-secondary-brown gap-3 items-center relative">
         <Image
           src={'/static/user.png'}

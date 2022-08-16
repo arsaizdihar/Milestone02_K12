@@ -15,6 +15,11 @@ export const tutorAndStudentRouter = createAuthRouter().query('allCourses', {
       },
       include: {
         _count: { select: { participants: true } },
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
   },

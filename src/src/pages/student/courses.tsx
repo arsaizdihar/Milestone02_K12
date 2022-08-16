@@ -3,7 +3,6 @@ import SearchField from '~/components/SearchField';
 import CourseInfo from '~/components/student/CourseInfo';
 import Tabs from '~/components/Tabs';
 import TimeSelect from '~/components/TimeSelect';
-import Title from '~/components/Title';
 import { useRedirect } from '~/hooks/useRedirect';
 import { trpc } from '~/utils/trpc';
 

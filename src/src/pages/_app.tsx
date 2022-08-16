@@ -2,6 +2,7 @@
 import { withTRPC } from '@trpc/next';
 import NextProgress from 'next-progress';
 import type { AppType } from 'next/dist/shared/lib/utils';
+import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import {} from 'react-query';
 import superjson from 'superjson';
@@ -16,6 +17,14 @@ const MyApp: AppType = ({
 }) => {
   return (
     <AuthProvider session={session}>
+      <Head>
+        <title>Bear With TPB</title>
+        <meta
+          name="description"
+          content="Sebuah mobile application berbasis website yang dibuat khusus sebagai platform bagi mahasiswa TPB mencari tutor"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <NextProgress options={{ showSpinner: false }} color="#80785C" />
       <NavBar />
       <div className="max-w-screen-mobile mx-auto border-x relative min-h-screen pt-16 flex flex-col px-4">

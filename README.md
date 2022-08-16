@@ -1,7 +1,7 @@
 # Milestone02_K12
 
 # Bear With TPB
-Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khusus sebagai platform bagi mahasiswa TPB mencari tutor 
+Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khusus sebagai platform bagi mahasiswa TPB mencari tutor.  
 ## Kelompok-12 Ursa
 
 | Nama | NIM | Pembagian Tugas |

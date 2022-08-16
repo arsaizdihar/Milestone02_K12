@@ -6,7 +6,7 @@ Bear with TPB adalah sebuah mobile application berbasis website yang dibuat khus
 
 | Nama | NIM | Pembagian Tugas |
 | ------| ---- | ---- |
-| Hans Stephano Edbert Njotohardjo | 16521001 / 18221171 | Frontend, readme |
+| Hans Stephano Edbert Njotohardjo | 16521001 / 18221171 | Backend, UI/UX |
 | Bagas Aryo Seto | 16521012 / 13521081 | Frontend |
 | Ivan Leovandi | 16521021 / 18221129 | Frontend |
 | Arsa Izdihar Islam | 16521134 / 13521101 | PJ, Fullstack |
